@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-01 20:14:04
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-03 15:42:16
+* @Last Modified time: 2019-11-03 16:09:54
 */
 const http = require('http')
 const path = require('path')
@@ -59,16 +59,19 @@ const server = http.createServer((req,res)=>{
 			// console.log(query)
 			add(query.task)
 			.then(data=>{
-
+				res.end(JSON.stringify({
+					code:0,
+					message:'添加数据成功',
+					data:data
+				}))
 			})
 			.catch(err=>{
-				
+				res.end(JSON.stringify({
+					code:1,
+					message:'添加数据失败',
+					data:err
+				}))
 			})
-
-
-			res.end(JSON.stringify({
-				code:0
-			}))
 		})
 		
 		//3.如果成功则将任务对象返回到前端
