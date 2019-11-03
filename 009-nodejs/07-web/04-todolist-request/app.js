@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-01 20:14:04
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-03 16:55:31
+* @Last Modified time: 2019-11-03 17:35:48
 */
 const http = require('http')
 const path = require('path')
@@ -14,7 +14,7 @@ const swig = require('swig')
 
 
 const mime = require('./mime.json')
-const { get,add } = require('./model/item.js')
+const { get,add,del } = require('./model/item.js')
 
 const server = http.createServer((req,res)=>{
 	
@@ -59,6 +59,7 @@ const server = http.createServer((req,res)=>{
 			// console.log(query)
 			add(query.task)
 			.then(data=>{
+				//3.如果成功则将任务对象返回到前端
 				res.end(JSON.stringify({
 					code:0,
 					message:'添加数据成功',
@@ -73,14 +74,22 @@ const server = http.createServer((req,res)=>{
 				}))
 			})
 		})
-		
-		//3.如果成功则将任务对象返回到前端
 	}
 	else if(pathname == '/delete'){//处理删除数据请求
-		console.log(req.url)
-		res.end(JSON.stringify({
-			code:0
-		}))
+		//1.获取参数信息
+		const id = parse.query.id
+		//2.根据参数信息中的id删除文件中对应数据
+		del(id)
+		.then(data=>{
+			res.end(JSON.stringify({
+				code:0
+			}))
+		})
+		.catch(err=>{
+			res.end(JSON.stringify({
+				code:0
+			}))
+		})
 	}else{//处理静态资源
 		const filename = path.normalize(__dirname+'/static/'+filePath)
 		fs.readFile(filename,{encoding:'utf-8'},(err,data)=>{
