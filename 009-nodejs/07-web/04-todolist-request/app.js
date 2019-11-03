@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-01 20:14:04
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-03 16:09:54
+* @Last Modified time: 2019-11-03 16:55:31
 */
 const http = require('http')
 const path = require('path')
@@ -77,7 +77,10 @@ const server = http.createServer((req,res)=>{
 		//3.如果成功则将任务对象返回到前端
 	}
 	else if(pathname == '/delete'){//处理删除数据请求
-
+		console.log(req.url)
+		res.end(JSON.stringify({
+			code:0
+		}))
 	}else{//处理静态资源
 		const filename = path.normalize(__dirname+'/static/'+filePath)
 		fs.readFile(filename,{encoding:'utf-8'},(err,data)=>{
