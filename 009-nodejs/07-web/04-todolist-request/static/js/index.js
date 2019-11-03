@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-01 20:30:52
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-03 16:54:40
+* @Last Modified time: 2019-11-03 17:50:00
 */
 ;(function($){
 	var $input = $('.todo-input')
@@ -46,7 +46,11 @@
 				id:$this.data('id')
 			},
 			success:function(data){
-				console.log(data)
+				if(data.code == 0){
+					$this.remove()
+				}else{
+					console.log(data.message)
+				}
 			},
 			error:function(err){
 				console.log(err)

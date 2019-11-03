@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-01 20:14:04
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-03 17:35:48
+* @Last Modified time: 2019-11-03 17:49:54
 */
 const http = require('http')
 const path = require('path')
@@ -82,12 +82,14 @@ const server = http.createServer((req,res)=>{
 		del(id)
 		.then(data=>{
 			res.end(JSON.stringify({
-				code:0
+				code:0,
+				message:"删除数据成功"
 			}))
 		})
 		.catch(err=>{
 			res.end(JSON.stringify({
-				code:0
+				code:1,
+				message:'删除数据失败'
 			}))
 		})
 	}else{//处理静态资源
