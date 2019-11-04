@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-01 20:30:52
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-03 17:50:00
+* @Last Modified time: 2019-11-04 20:07:53
 */
 ;(function($){
 	var $input = $('.todo-input')
@@ -12,7 +12,7 @@
 		if(ev.keyCode == 13){
 			//发送ajax请求,添加数据
 			$.ajax({
-				url:'/add',
+				url:'/Item/add',
 				type:"post",
 				dataType:'json',
 				data:{
@@ -40,11 +40,8 @@
 		var $this = $(this)
 		// console.log($this)
 		$.ajax({
-			url:'/delete',
+			url:'/Item/delete/'+$this.data('id'),
 			dataType:'json',
-			data:{
-				id:$this.data('id')
-			},
 			success:function(data){
 				if(data.code == 0){
 					$this.remove()

@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-01 20:14:04
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-04 19:40:31
+* @Last Modified time: 2019-11-04 20:03:23
 */
 const http = require('http')
 const path = require('path')
@@ -35,8 +35,7 @@ const server = http.createServer((req,res)=>{
 
 	*/
 	if(pathname.startsWith('/static/')){//处理静态资源
-		console.log('aa')
-		const filename = path.normalize(__dirname+'/static/'+filePath)
+		const filename = path.normalize(__dirname+'/'+filePath)
 		fs.readFile(filename,{encoding:'utf-8'},(err,data)=>{
 			if(err){
 				res.setHeader('Content-type','text/html;charset="utf-8"')
@@ -70,7 +69,14 @@ const server = http.createServer((req,res)=>{
    		*/
    		const mode = require(path.normalize(__dirname+'/Controller/'+controller))
    		//参数传递res req args
-   		mode[action] && mode[action](...[req,res].concat(args))
+   		try{
+   			mode[action] && mode[action](...[req,res].concat(args))
+   		}catch(err){
+   			res.setHeader('Content-type','text/html;charset="utf-8"')
+			res.statusCode = 404
+			res.end('<h1>你请求的地址出错啦</h1>')
+   		}
+   		
 	}
 
 
