@@ -1,24 +1,41 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<title>文字超过一定字数用省略号显示</title>
-<script type="text/javascript" src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js" language="javascript"></script>
+ <meta charset="UTF-8">
+ <title>个人信息作业.html</title>
+ <style>
+  td{
+   width: 10%;
+   height: 20px;
+  }
+  tr{
+   width: 100%;
+   height: 20px;
+  }
+ </style>
 </head>
 <body>
-    <ul id="demo">
-        <li>我是最终要显示的内容</li>
-        <li>我是最终要显示的内容我是最终要显示的内容</li>
-        <li>我是最终</li>
-        <li>文字超过一定字数用省略号显示</li>
-        <li>我是最终要</li>
-    </ul>
-    <script type="text/javascript">
-        $("#demo li").each(function(){
-            var str = $(this).html();
-            var subStr = str.substring(0,5);
-            //alert(subStr);
-            $(this).html(subStr + (str.length > 5 ? '...': ''));
-        });
-    </script>
+ <table cellspacing="1px" bgcolor="gray" width="800px"  align="center">
+  <caption><h1>学员登记表</h1></caption>
+  <thead>
+   
+  </thead>
+  <tbody >
+   
+   <tr bgcolor="white" >
+    <td  colspan="2" >姓名</td>
+    <td></td>
+    <td >身份证号</td>
+    <td colspan="6" >1</td>
+   </tr>
+   <tr bgcolor="white">
+    <td  colspan="2" >姓名</td>
+    <td></td>
+    <td >身份证号</td>
+    <td colspan="6" >1</td>
+   </tr>
+   
+ </tbody>
+ </table>
 </body>
+</html>
