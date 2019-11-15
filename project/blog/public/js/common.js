@@ -2,12 +2,13 @@
 * @Author: TomChen
 * @Date:   2019-03-13 18:10:45
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-14 20:26:12
+* @Last Modified time: 2019-11-15 19:59:43
 */
 ;(function($){
 	//1.登录注册面板切换
 	var $login = $('#login')
 	var $register = $('#register')
+	var $userInfo = $('#user-info')
 	//1.1 登录=>注册
 	$('#go-register').on('click',function(){
 		$login.hide()
@@ -75,7 +76,81 @@
 			.fail(function(err){
 				$err.html('请求失败,请稍后再试!!!')
 			})
+		}	
+	})
+
+	//3.点击登录发送请求
+	$('#sub-login').on('click',function(){
+		//3.1获取登录信息
+		var username = $login.find("[name='username']").val()
+		var password = $login.find("[name='password']").val()
+		var $err = $login.find('.err')
+		//3.2验证数据合法性
+		// 用户名以字母开头的包含字母数字下划线的3-10位字符
+		var userReg = /^[a-z][a-z0-9_]{2,9}$/i
+		// 密码是3-6位的任意字符
+		var passwordReg = /^\w{3,6}$/
+		var errMsg = ''
+		//验证用户名
+		if(!userReg.test(username)){
+			errMsg = '用户名以字母开头的包含字母数字下划线的3-10位字符'
 		}
-		
+		//验证密码
+		else if(!passwordReg.test(password)){
+			errMsg = '密码是3-6位的任意字符'
+		}
+		//验证通过
+		else {
+			errMsg = ''
+		}
+
+		if(errMsg){
+			$err.html(errMsg)
+		}else{
+			$err.html('')
+			//3.3发送ajax请求
+			$.ajax({
+				url:'/user/login',
+				type:'POST',
+				dataType:'json',
+				data:{
+					username:username,
+					password:password
+				}
+			})
+			.done(function(data){
+				if(data.code == 0){//登录成功
+					/*
+					$userInfo.find('span').html(data.user.username)
+					$userInfo.show()
+					$login.hide()
+					*/
+					window.location.reload()
+				}else{
+					$err.html(data.message)
+				}
+			})
+			.fail(function(err){
+				$err.html('请求失败,请稍后再试!!!')
+			})
+		}	
+	})
+
+	//4.点击退出登录
+	$('#logout').on('click',function(){
+		$.ajax({
+			url:'/user/logout',
+			type:'get'
+		})
+		.done(function(data){
+			// console.log(data)
+			if(data.code == 0){
+				//退出成功返回首页
+				window.location.href = '/'
+			}
+		})
+		.fail(function(err){
+			$userInfo.find('.err').html('请求失败,请稍后再试!!!')
+		})
 	})
 })(jQuery);

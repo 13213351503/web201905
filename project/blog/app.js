@@ -2,13 +2,16 @@
 * @Author: Chen
 * @Date:   2019-11-12 20:16:20
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-14 20:57:18
+* @Last Modified time: 2019-11-15 20:51:49
 */
 const express = require('express')
 const app = express()
 const swig = require('swig')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
+const Cookies = require('cookies')
+const session = require('express-session')
+const MongoStore = require("connect-mongo")(session)
 
 //处理静态资源
 app.use(express.static('public'))
@@ -57,6 +60,52 @@ app.set('views', './views')
 //第二个参数是模板名称,也就是app.engine的第一个参数
 app.set('view engine', 'html')
 /*------------------配置模板引擎结束----------------*/
+
+/*---------------利用cookie+session+db保存用户状态信息开始------------*/
+/*
+app.use((req,res,next)=>{
+	//生成cookies对象并存在req
+	req.cookies = new Cookies(req,res)
+	let userInfo = {}
+	if(req.cookies.get('userInfo')){
+		userInfo = JSON.parse(req.cookies.get('userInfo'))
+	}
+	req.userInfo = userInfo
+	next()
+})
+*/
+app.use(session({
+    //设置cookie名称
+    name:'kzid',
+    //用它来对session cookie签名，防止篡改
+    secret:'abc',
+    //强制保存session即使它并没有变化
+    resave: true,
+    //强制将未初始化的session存储
+    saveUninitialized: true, 
+    //如果为true,则每次请求都更新cookie的过期时间
+    rolling:true,
+    //cookie过期时间 1天
+    cookie:{maxAge:1000*60*60*24},
+    //设置session存储在数据库中
+    store:new MongoStore({ mongooseConnection: mongoose.connection })
+}))
+
+app.use((req,res,next)=>{
+	//获取并将cookies信息存在req.userInfo上
+	req.userInfo = req.session.userInfo || {}
+
+	next()
+})
+/*---------------配置cookies保存用户状态信息结束------------*/
+
+
+
+
+
+
+
+
 
 /*------------------配置路由开始----------------*/
 app.use('/',require('./routers/index.js'))
