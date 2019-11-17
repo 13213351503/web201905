@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-12 20:46:50
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-17 15:19:21
+* @Last Modified time: 2019-11-17 16:11:03
 */
 const express = require('express')
 const router = express.Router()
@@ -42,21 +42,45 @@ router.get('/users', (req, res) => {
 	const limit = 2
 	let page = req.query.page / 1
 
+	if(isNaN(page)){
+		page = 1
+	}
+	//上一页边界控制
+	if(page == 0){
+		page = 1
+	}
 
-
-	let skip = (page-1)*limit
-	UserModel.find({})
-	.skip(skip)
-	.limit(limit)
-	.then(users=>{
-		res.render('admin/user_list',{
-			userInfo:req.userInfo,
-			users:users
+	UserModel.countDocuments((err,count)=>{
+		// console.log(count)
+		const pages = Math.ceil(count / limit)
+		//下一页边界控制
+		if(page > pages){
+			page = pages
+		}
+		//由于swig无法对数字进行循环遍历,因此需要在后台生成页码
+		let list = []
+		for(let i = 1;i<=pages;i++){
+			list.push(i)
+		}
+		let skip = (page-1)*limit
+		UserModel.find({},'-password -__v')
+		.sort({_id:-1})
+		.skip(skip)
+		.limit(limit)
+		.then(users=>{
+			res.render('admin/user_list',{
+				userInfo:req.userInfo,
+				users:users,
+				page:page,
+				list:list,
+				pages:pages
+			})
+		})
+		.catch(err=>{
+			console.log(err)
 		})
 	})
-	.catch(err=>{
-		console.log(err)
-	})
+	
 	
 })
 
