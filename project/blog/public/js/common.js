@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2019-03-13 18:10:45
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-15 19:59:43
+* @Last Modified time: 2019-11-17 11:13:52
 */
 ;(function($){
 	//1.登录注册面板切换
@@ -137,6 +137,7 @@
 	})
 
 	//4.点击退出登录
+	/*
 	$('#logout').on('click',function(){
 		$.ajax({
 			url:'/user/logout',
@@ -153,4 +154,6 @@
 			$userInfo.find('.err').html('请求失败,请稍后再试!!!')
 		})
 	})
+	*/
+	
 })(jQuery);

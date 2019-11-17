@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-12 20:46:50
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-15 20:33:13
+* @Last Modified time: 2019-11-17 10:23:19
 */
 const express = require('express')
 const UserModel = require('../models/user.js')
@@ -27,7 +27,8 @@ router.post('/register', (req, res) => {
 		}else{//该用户名可以插入
 			UserModel.insertMany({
 				username:username,
-				password:hmac(password)
+				password:hmac(password),
+				// isAdmin:true
 			})
 			.then(result=>{
 				res.json({
