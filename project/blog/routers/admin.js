@@ -2,11 +2,12 @@
 * @Author: Chen
 * @Date:   2019-11-12 20:46:50
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-17 16:11:03
+* @Last Modified time: 2019-11-18 19:28:02
 */
 const express = require('express')
 const router = express.Router()
 const UserModel = require('../models/user.js')
+const pagination = require('../util/pagination.js')
 
 
 //权限验证
@@ -39,6 +40,7 @@ router.get('/users', (req, res) => {
 
 
 	*/
+	/*
 	const limit = 2
 	let page = req.query.page / 1
 
@@ -80,8 +82,28 @@ router.get('/users', (req, res) => {
 			console.log(err)
 		})
 	})
-	
-	
+	*/
+	const options = {
+		page:req.query.page / 1,
+		model:UserModel,
+		query:{},
+		projection:'-password -__v',
+		sort:{_id:-1}
+	}
+	pagination(options)
+	.then(result=>{
+		res.render('admin/user_list',{
+			userInfo:req.userInfo,
+			users:result.docs,
+			page:result.page,
+			list:result.list,
+			pages:result.pages,
+			url:'/admin/users'
+		})
+	})
+	.catch(err=>{
+		console.log(err)
+	})
 })
 
 
