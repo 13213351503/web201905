@@ -2,11 +2,12 @@
 * @Author: Chen
 * @Date:   2019-11-12 20:46:50
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-19 18:14:34
+* @Last Modified time: 2019-11-19 19:19:10
 */
 const express = require('express')
 const router = express.Router()
 const CategoryModel = require('../models/category.js')
+const ArticleModel = require('../models/article.js')
 const pagination = require('../util/pagination.js')
 
 
@@ -19,79 +20,93 @@ router.use((req,res,next)=>{
 	}
 })
 
-//显示分类列表首页
+//显示文章列表首页
 router.get('/', (req, res) => {
 	const options = {
 		page:req.query.page / 1,
-		model:CategoryModel,
+		model:ArticleModel,
 		query:{},
 		projection:'-__v',
-		sort:{order:1}
+		sort:{_id:1}
 	}
 	pagination(options)
 	.then(result=>{
-		res.render('admin/category_list',{
+		res.render('admin/article_list',{
 			userInfo:req.userInfo,
-			categories:result.docs,
+			articles:result.docs,
 			page:result.page,
 			list:result.list,
 			pages:result.pages,
-			url:'/category'
+			url:'/article'
 		})
 	})
 	.catch(err=>{
 		console.log(err)
 	})
 })
-//显示新增分类首页
+
+//显示新增文章首页
 router.get('/add', (req, res) => {
-	res.render('admin/category_add_edit',{
-		userInfo:req.userInfo
+	//首先获取所有的分类名称传递给模板
+	CategoryModel.find({},'name')
+	.then(categories=>{
+		res.render('admin/article_add',{
+			userInfo:req.userInfo,
+			categories
+		})
+	})
+	.catch(err=>{
+		res.render('admin/err',{
+			userInfo:req.userInfo,
+			message:'数据库操作错误,请稍后再试!!!'
+		})
 	})
 })
-//处理新增分类
+
+
+//处理新增文章
 router.post('/add',(req,res)=>{
 	//1. 获取参数
-	let { name,order } = req.body
-	if(!order){
-		order = 0
-	}
-	//2. 查找数据库进行同名验证
-	CategoryModel.findOne({name:name})
-	.then(category=>{
-		if(category){//该分类名称已经存在
-			res.render('admin/err',{
-				userInfo:req.userInfo,
-				message:'该分类名称已经存在'
-			})
-		}else{//可以插入该分类名称
-			//3. 插入数据
-			CategoryModel.insertMany({name,order})
-			.then(result=>{
-				res.render('admin/ok',{
-					userInfo:req.userInfo,
-					message:'新增分类成功',
-					url:'/category'
-				})
-			})
-			.catch(err=>{
-				console.log(err)
-				res.render('admin/err',{
-					userInfo:req.userInfo,
-					message:'数据库操作失败,请稍后再试!!!'
-				})
-			})
-		}
+	let { category,title,intro,content } = req.body
+	
+	//2. 将文章插入到数据库
+	ArticleModel.insertMany({
+		category,
+		title,
+		intro,
+		content,
+		user:req.userInfo._id
+	})
+	.then(result=>{
+		res.render('admin/ok',{
+			userInfo:req.userInfo,
+			message:'新增文章成功',
+			url:'/article'
+		})
 	})
 	.catch(err=>{
 		console.log(err)
 		res.render('admin/err',{
 			userInfo:req.userInfo,
-			message:'数据库操作失败,请稍后再试!!!'
+			message:'数据库操作失败,请稍后再试!!!',
+			url:'/article'
 		})
 	})
 	
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //显示编辑分类页面
