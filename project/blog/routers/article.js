@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-12 20:46:50
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-19 20:55:08
+* @Last Modified time: 2019-11-21 18:38:18
 */
 const express = require('express')
 const router = express.Router()
@@ -31,7 +31,8 @@ router.get('/', (req, res) => {
 		model:ArticleModel,
 		query:{},
 		projection:'-__v',
-		sort:{_id:1}
+		sort:{_id:1},
+		populates:[{ path: 'user', select: 'username'},{ path: 'category', select: 'name'}]
 	}
 	pagination(options)
 	.then(result=>{

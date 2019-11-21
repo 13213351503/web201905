@@ -2,9 +2,10 @@
 * @Author: Chen
 * @Date:   2019-11-14 19:37:47
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-19 18:34:55
+* @Last Modified time: 2019-11-21 18:13:48
 */
 const mongoose = require('mongoose')
+const moment = require('moment')
 
 
 //1.定义文档模型
@@ -34,6 +35,11 @@ const mongoose = require('mongoose')
 	  	content:{
 	  		type:String
 	  	}
+	})
+
+	ArticleSchema.virtual('createdTime').get(function() {
+	  	// return this.createdAt.toLocaleString()
+	  	return moment(this.createdAt).format('YYYY - MM - DD HH:mm:ss')
 	})
 
 

@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-18 18:49:59
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-18 19:34:04
+* @Last Modified time: 2019-11-21 18:37:03
 */
 
 /*
@@ -12,6 +12,7 @@
 		query:查询条件
 		projection:显示字段信息
 		sort:排序
+		populates:关联查询
 	}
 
 */
@@ -28,7 +29,7 @@ async function pagination(options){
 
 	*/
 	const limit = 2
-	let { page,model,query,projection,sort } = options
+	let { page,model,query,projection,sort,populates } = options
 
 	if(isNaN(page)){
 		page = 1
@@ -55,7 +56,17 @@ async function pagination(options){
 		list.push(i)
 	}
 	let skip = (page-1)*limit
-	const docs = await model.find(query,projection).sort(sort).skip(skip).limit(limit)
+
+	//关联查询
+	let result = model.find(query,projection)
+	if(populates){
+		populates.forEach(function(populate){
+			return result.populate(populate)
+		})
+	}
+
+
+	const docs = await result.sort(sort).skip(skip).limit(limit)
 
 	return {
 		docs:docs,
