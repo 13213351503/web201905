@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-12 20:46:50
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-21 19:22:24
+* @Last Modified time: 2019-11-21 20:43:16
 */
 const express = require('express')
 const router = express.Router()
@@ -39,16 +39,25 @@ router.get('/', (req, res) => {
 		userInfo = JSON.parse(req.cookies.get('userInfo'))
 	}
 	*/
-
-	getCommonData()
-	.then(data=>{
-		const { categories,topArticles } = data
-		res.render('main/index',{
-			userInfo:req.userInfo,
-			categories,
-			topArticles
+	ArticleModel.getPaginationData(req)
+	.then(result=>{
+		getCommonData()
+		.then(data=>{
+			const { categories,topArticles } = data
+			res.render('main/index',{
+				userInfo:req.userInfo,
+				categories,
+				topArticles,
+				//返回分页数据
+				articles:result.docs,
+				page:result.page,
+				list:result.list,
+				pages:result.pages,
+				url:'/'
+			})
 		})
 	})
+	
 	
 })
 //显示列表页
@@ -61,6 +70,26 @@ router.get('/list', (req, res) => {
 router.get('/detail', (req, res) => {
 	res.render('main/detail',{
 		userInfo:req.userInfo
+	})
+})
+
+
+//处理首页文章分页ajax
+router.get('/articles',(req,res)=>{
+	ArticleModel.getPaginationData(req)
+	.then(result=>{
+		res.json({
+			code:0,
+			message:'获取文章成功',
+			data:result
+		})
+	})
+	.catch(err=>{
+		console.log(err)
+		res.json({
+			code:10,
+			message:'获取文章失败'
+		})
 	})
 })
 

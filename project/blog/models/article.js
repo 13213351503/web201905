@@ -2,10 +2,11 @@
 * @Author: Chen
 * @Date:   2019-11-14 19:37:47
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-21 18:13:48
+* @Last Modified time: 2019-11-21 19:49:42
 */
 const mongoose = require('mongoose')
 const moment = require('moment')
+const pagination = require('../util/pagination.js')
 
 
 //1.定义文档模型
@@ -41,6 +42,20 @@ const moment = require('moment')
 	  	// return this.createdAt.toLocaleString()
 	  	return moment(this.createdAt).format('YYYY - MM - DD HH:mm:ss')
 	})
+
+	//定义分页静态方法
+	ArticleSchema.statics.getPaginationData = function(req,query={}){
+		const options = {
+			page:req.query.page / 1,
+			model:ArticleModel,
+			query:query,
+			projection:'-__v',
+			sort:{_id:1},
+			populates:[{ path: 'user', select: 'username'},{ path: 'category', select: 'name'}]
+		}
+		return pagination(options)
+		
+	}
 
 
 //2.根据文档模型生成对应模型(集合)

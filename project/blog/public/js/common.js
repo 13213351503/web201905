@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2019-03-13 18:10:45
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-17 11:13:52
+* @Last Modified time: 2019-11-21 20:22:03
 */
 ;(function($){
 	//1.登录注册面板切换
@@ -155,5 +155,12 @@
 		})
 	})
 	*/
+
+
+	//5.首页分页逻辑
+	var $articlePage = $('#article-page')
+	$articlePage.pagination({
+		url:'/articles'
+	})
 	
 })(jQuery);

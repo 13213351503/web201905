@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-12 20:46:50
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-21 18:38:18
+* @Last Modified time: 2019-11-21 19:48:48
 */
 const express = require('express')
 const router = express.Router()
@@ -26,6 +26,7 @@ router.use((req,res,next)=>{
 
 //显示文章列表首页
 router.get('/', (req, res) => {
+	/*
 	const options = {
 		page:req.query.page / 1,
 		model:ArticleModel,
@@ -47,6 +48,18 @@ router.get('/', (req, res) => {
 	})
 	.catch(err=>{
 		console.log(err)
+	})
+	*/
+	ArticleModel.getPaginationData(req)
+	.then(result=>{
+		res.render('admin/article_list',{
+			userInfo:req.userInfo,
+			articles:result.docs,
+			page:result.page,
+			list:result.list,
+			pages:result.pages,
+			url:'/article'
+		})
 	})
 })
 
