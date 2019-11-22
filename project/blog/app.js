@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-12 20:16:20
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-19 18:27:00
+* @Last Modified time: 2019-11-22 20:54:20
 */
 const express = require('express')
 const app = express()
@@ -28,6 +28,7 @@ app.use(bodyParser.json())
 //链接数据库
 mongoose.connect('mongodb://localhost/blog', { useUnifiedTopology: true,useNewUrlParser: true })
 //生成db
+mongoose.set('useFindAndModify', false)
 const db = mongoose.connection
 //连接失败
 db.on('error',(err)=>{

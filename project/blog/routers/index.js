@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-12 20:46:50
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-21 20:43:16
+* @Last Modified time: 2019-11-22 20:55:51
 */
 const express = require('express')
 const router = express.Router()
@@ -57,26 +57,81 @@ router.get('/', (req, res) => {
 			})
 		})
 	})
-	
-	
 })
+
+
 //显示列表页
-router.get('/list', (req, res) => {
-	res.render('main/list',{
-		userInfo:req.userInfo
+router.get('/list/:id', (req, res) => {
+	const id = req.params.id
+	ArticleModel.getPaginationData(req,{category:id})
+	.then(result=>{
+		getCommonData()
+		.then(data=>{
+			const { categories,topArticles } = data
+			res.render('main/list',{
+				userInfo:req.userInfo,
+				categories,
+				topArticles,
+				//返回分页数据
+				articles:result.docs,
+				page:result.page,
+				list:result.list,
+				pages:result.pages,
+				//分类id回传
+				currentCategoryId:id
+			})
+		})
 	})
 })
+
+//获取详情页数据
+async function getArticleData(req){
+	const id = req.params.id
+
+	const getCommonDataPromise = getCommonData()
+	//获取详情页具体文章
+	const getArticleDataPromise = ArticleModel.findOneAndUpdate({_id:id},{$inc:{click:1}},{new:true})
+								  .populate({ path: 'user', select: 'username'})
+								  .populate({ path: 'category', select: 'name'})
+	//为了保证点击排行榜点击量数据和详情点击量一致,
+	//必须先获取详情文章信息再获取点击排行信息
+	const articleData = await getArticleDataPromise
+	const commonData = await getCommonDataPromise
+
+	const { categories,topArticles } = commonData
+
+	return {
+		categories,
+		topArticles,
+		articleData
+	}
+}
 //显示详情页
-router.get('/detail', (req, res) => {
-	res.render('main/detail',{
-		userInfo:req.userInfo
+router.get('/detail/:id', (req, res) => {
+	getArticleData(req)
+	.then(data=>{
+		const { categories,topArticles,articleData } = data
+		res.render('main/detail',{
+			userInfo:req.userInfo,
+			categories,
+			topArticles,
+			articleData,
+			//分类id回传
+			currentCategoryId:articleData.category._id.toString()
+		})
 	})
+	
 })
 
 
 //处理首页文章分页ajax
 router.get('/articles',(req,res)=>{
-	ArticleModel.getPaginationData(req)
+	const id = req.query.id
+	let query = {}
+	if(id){
+		query.category = id
+	}
+	ArticleModel.getPaginationData(req,query)
 	.then(result=>{
 		res.json({
 			code:0,

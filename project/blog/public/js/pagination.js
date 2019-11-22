@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2019-03-13 18:10:45
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-21 20:43:38
+* @Last Modified time: 2019-11-22 19:41:59
 */
 ;(function($){
 	$.fn.extend({
@@ -28,15 +28,22 @@
 				if(page == currentPage){
 					return false
 				}
-				
+				//由于列表页只需要显示对应分类下的文章
+				//要获取对应的分类ID
+				var url = options.url+"?page="+page
+				var id = $elem.data('id')
+				if(id){
+					url = url+"&id="+id
+				}
 				//3.发送ajax请求
 				$.ajax({
-					url:options.url+"?page="+page,
+					url:url,
 					type:'get',
 					dataType:'json'
 				})
 				.done(function(result){
-					console.log(result)
+					// console.log(result)
+					$elem.trigger('get-data',result.data)
 				})
 				.fail(function(err){
 					console.log(err)

@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2019-03-13 18:10:45
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-21 20:22:03
+* @Last Modified time: 2019-11-22 18:48:25
 */
 ;(function($){
 	//1.登录注册面板切换
@@ -159,6 +159,76 @@
 
 	//5.首页分页逻辑
 	var $articlePage = $('#article-page')
+	function buildArticleHtml(articles){
+		var html = ''
+			articles.forEach(function(article){
+				var createdTime = moment(article.createdAt).format('YYYY - MM - DD HH:mm:ss')
+				html += `
+					<div class="panel panel-default content-item">
+				        <div class="panel-heading">
+				          <h3 class="panel-title">
+				            <a href="/detail/${article._id.toString()}" class="link" target="_blank">${article.title}</a>
+				          </h3>
+				        </div>
+				        <div class="panel-body">
+				          ${article.intro}
+				        </div>
+				        <div class="panel-footer">
+				          <span class="glyphicon glyphicon-user"></span>
+				          <span class="panel-footer-text text-muted">${article.user.username}</span>
+				          <span class="glyphicon glyphicon-th-list"></span>
+				          <span class="panel-footer-text text-muted">${article.category.name}</span>
+				          <span class="glyphicon glyphicon-time"></span>
+				          <span class="panel-footer-text text-muted">${createdTime}</span>
+				          <span class="glyphicon glyphicon-eye-open"></span>
+				          <span class="panel-footer-text text-muted"><em>${article.click}</em>已阅读</span>
+				        </div>
+				    </div>`
+			})
+		return html
+	}
+	function buildPaginationHtml(page,pages,list){
+		var html = ''
+		if(page == 1){
+			html += `<li class="disabled">`
+		}else{
+			html += `<li>`
+		}
+		html += `<a href="javascript:;" aria-label="Previous">
+			        <span aria-hidden="true">&laquo;</span>
+			      </a>
+			    </li>`
+		list.forEach(function(i){
+			if(page == i){
+				html += '<li class="active"><a href="javascript:;">'+i+'</a></li>'
+			}else{
+				html += '<li><a href="javascript:;">'+i+'</a></li>'
+			}
+		})
+		if(page == pages){
+			html += `<li class="disabled">`
+		}else{
+			html += `<li>`
+		}
+		html += `<a href="javascript:;" aria-label="Next">
+			        <span aria-hidden="true">&raquo;</span>
+			      </a>
+			    </li>`
+		return html
+	}
+	$articlePage.on('get-data',function(ev,data){
+		// console.log(data)
+		//获取首页文章分页数据
+		//构建文章列表结构
+		$('#article-wrap').html(buildArticleHtml(data.docs))
+		//构建分页器结构
+		var $pagination = $articlePage.find('.pagination')
+		if(data.pages > 1){
+			$pagination.html(buildPaginationHtml(data.page,data.pages,data.list))
+		}else{
+			$pagination.html('')
+		}
+	})
 	$articlePage.pagination({
 		url:'/articles'
 	})

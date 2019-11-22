@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-18 18:49:59
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-21 18:37:03
+* @Last Modified time: 2019-11-22 19:12:29
 */
 
 /*
@@ -39,7 +39,7 @@ async function pagination(options){
 		page = 1
 	}
 
-	const count = await model.countDocuments()
+	const count = await model.countDocuments(query)
 
 	const pages = Math.ceil(count / limit)
 
