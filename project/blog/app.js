@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-12 20:16:20
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-22 20:54:20
+* @Last Modified time: 2019-11-24 10:59:59
 */
 const express = require('express')
 const app = express()
@@ -114,6 +114,7 @@ app.use('/user',require('./routers/user.js'))
 app.use('/admin',require('./routers/admin.js'))
 app.use('/category',require('./routers/category.js'))
 app.use('/article',require('./routers/article.js'))
+app.use('/comment',require('./routers/comment.js'))
 /*------------------配置路由结束----------------*/
 
 app.listen(3000, () => console.log('server is running in the http://127.0.0.1:3000!'))

@@ -2,12 +2,13 @@
 * @Author: Chen
 * @Date:   2019-11-12 20:46:50
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-22 20:55:51
+* @Last Modified time: 2019-11-24 11:37:34
 */
 const express = require('express')
 const router = express.Router()
 const CategoryModel = require('../models/category.js')
 const ArticleModel = require('../models/article.js')
+const CommentModel = require('../models/comment.js')
 
 //获取共通数据函数
 async function getCommonData(){
@@ -93,31 +94,44 @@ async function getArticleData(req){
 	const getArticleDataPromise = ArticleModel.findOneAndUpdate({_id:id},{$inc:{click:1}},{new:true})
 								  .populate({ path: 'user', select: 'username'})
 								  .populate({ path: 'category', select: 'name'})
+	//获取评论分页数据
+	const getCommentDataPromise = CommentModel.getPaginationData(req,{article:id})
+
+
 	//为了保证点击排行榜点击量数据和详情点击量一致,
 	//必须先获取详情文章信息再获取点击排行信息
 	const articleData = await getArticleDataPromise
+
 	const commonData = await getCommonDataPromise
+
+	const commentsData = await getCommentDataPromise
 
 	const { categories,topArticles } = commonData
 
 	return {
 		categories,
 		topArticles,
-		articleData
+		articleData,
+		commentsData
 	}
 }
 //显示详情页
 router.get('/detail/:id', (req, res) => {
 	getArticleData(req)
 	.then(data=>{
-		const { categories,topArticles,articleData } = data
+		const { categories,topArticles,articleData,commentsData } = data
 		res.render('main/detail',{
 			userInfo:req.userInfo,
 			categories,
 			topArticles,
 			articleData,
 			//分类id回传
-			currentCategoryId:articleData.category._id.toString()
+			currentCategoryId:articleData.category._id.toString(),
+			//返回评论分页数据
+			comments:commentsData.docs,
+			page:commentsData.page,
+			list:commentsData.list,
+			pages:commentsData.pages
 		})
 	})
 	
