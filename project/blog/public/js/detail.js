@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2019-03-13 18:10:45
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-24 11:11:43
+* @Last Modified time: 2019-11-24 15:25:03
 */
 ;(function($){
 	$('.btn-sub-comment').on('click',function(){
@@ -38,6 +38,7 @@
 			if(result.code == 0){
 				$('#text-comment').val('')
 				//todo.....
+				$('#comment-page').trigger('get-data',result.data)
 			}
 		})
 		.fail(function(err){

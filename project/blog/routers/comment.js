@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-12 20:46:50
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-24 11:09:33
+* @Last Modified time: 2019-11-24 15:17:15
 */
 const express = require('express')
 const router = express.Router()
@@ -47,6 +47,30 @@ router.post('/add', (req, res) => {
 		res.json({
 			code:10,
 			message:'数据库操作错误,请稍后再试'
+		})
+	})
+})
+
+//处理评论ajax
+router.get('/list',(req,res)=>{
+	const id = req.query.id
+	let query = {}
+	if(id){
+		query.article = id
+	}
+	CommentModel.getPaginationData(req,query)
+	.then(result=>{
+		res.json({
+			code:0,
+			message:'获取评论信息成功',
+			data:result
+		})
+	})
+	.catch(err=>{
+		console.log(err)
+		res.json({
+			code:10,
+			message:'获取评论信息失败'
 		})
 	})
 })

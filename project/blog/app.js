@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-12 20:16:20
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-11-24 10:59:59
+* @Last Modified time: 2019-11-24 16:48:06
 */
 const express = require('express')
 const app = express()
@@ -112,6 +112,7 @@ app.use((req,res,next)=>{
 app.use('/',require('./routers/index.js'))
 app.use('/user',require('./routers/user.js'))
 app.use('/admin',require('./routers/admin.js'))
+app.use('/home',require('./routers/home.js'))
 app.use('/category',require('./routers/category.js'))
 app.use('/article',require('./routers/article.js'))
 app.use('/comment',require('./routers/comment.js'))
