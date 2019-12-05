@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-28 19:10:50
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-01 11:53:03
+* @Last Modified time: 2019-12-01 11:26:30
 */
 import React,{Component,Fragment} from 'react'
 import './App.css'
@@ -24,31 +24,24 @@ class App extends Component{
 	static getDerivedStateFromProps(props, state){
 		console.log('App getDerivedStateFromProps(props, state)',props, state)
 		//返回的对象会state进行合并并返回最新的state
+		/*state = {
+			list:['吃饭','睡觉'],
+			task:''
+		}*/
+		/*
+		return {
+			task:'aaa'
+		}
+		*/
+		/*state ={
+			list:['吃饭','睡觉'],
+			task:'aaa'
+		}*/
 		return null
 	}
 	componentDidMount(){
 		//当组件挂载完毕后再这个函数中发送ajax请求
 		console.log('App componentDidMount()')
-	}
-	shouldComponentUpdate(nextProps, nextState){
-		console.log('App shouldComponentUpdate(nextProps, nextState)',nextProps, nextState)
-		//决定是否向下更新
-		/*
-		if(nextState.task == 1){
-			return false
-		}else{
-			return true
-		}
-		*/
-		return true
-		
-	}
-	getSnapshotBeforeUpdate(prevProps, prevState){
-		console.log('App getSnapshotBeforeUpdate(prevProps, prevState)',prevProps, prevState)
-		return 111
-	}
-	componentDidUpdate(prevProps, prevState,snapshot){
-		console.log('App componentDidUpdate(prevProps, prevState,snapshot)',prevProps, prevState,snapshot)
 	}
 	handelAdd(){
 		const list = [...this.state.list,this.state.task]
