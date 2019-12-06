@@ -2,11 +2,12 @@
 * @Author: Chen
 * @Date:   2019-11-25 19:16:58
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-06 15:18:41
+* @Last Modified time: 2019-12-06 16:42:27
 */
 const path = require('path')
 const htmlWebpackPlugin = require('html-webpack-plugin')
 const {CleanWebpackPlugin} = require('clean-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
 module.exports = {
 	//指定开发环境
@@ -34,7 +35,8 @@ module.exports = {
 	},
 	module: {
 	    rules: [
-	    	//处理CSS
+	    //处理CSS
+	    /*
 	      {
 	        test: /\.css$/,
 	        use: [
@@ -42,6 +44,18 @@ module.exports = {
 	          'css-loader'
 	        ]
 	      },
+	     */
+	     {
+            test: /\.css$/,
+            use: [
+              {
+                loader: MiniCssExtractPlugin.loader,
+                options: {
+                }
+              },
+              "css-loader"
+            ]
+          },
 	      //处理图片资源
 	      {
 			test: /\.(png|jpg|gif)$/i,
@@ -79,11 +93,13 @@ module.exports = {
 	        chunks:['index','common']
 	    }),
 	    //自动清理多余文件
-	    new CleanWebpackPlugin()
+	    new CleanWebpackPlugin(),
+	    //单独打包CSS文件
+	    new MiniCssExtractPlugin({})
 	],
 	devServer:{
 	    contentBase: './dist',//内容的目录
-	    port:8090,//服务运行的端口,
+	    port:3001,//服务运行的端口,
 	   	historyApiFallback:true,//h5路由刷新页面不向后台请求数据
 	}
 }
