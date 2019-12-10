@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-25 19:16:58
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-06 16:42:27
+* @Last Modified time: 2019-12-08 16:01:25
 */
 const path = require('path')
 const htmlWebpackPlugin = require('html-webpack-plugin')
@@ -33,6 +33,14 @@ module.exports = {
 		//配置静态资源路径
 		publicPath:'/' 
 	},
+	//配置别名
+    resolve:{
+        alias:{
+            pages:path.resolve(__dirname,'./src/pages'),
+            util:path.resolve(__dirname,'./src/util'),
+            common:path.resolve(__dirname,'./src/common'),
+        }
+    },
 	module: {
 	    rules: [
 	    //处理CSS
@@ -77,10 +85,29 @@ module.exports = {
 			        options: {
 			            // presets: ['env', 'react'],
 			            presets: ['env','es2015','react','stage-3'],
-			            plugins: [["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }]]
+			            plugins: [["import", { "libraryName": "antd", "libraryDirectory": "es", "style": true }]]
 			        }
 			    }               
-			}
+			},
+			//定制antd自定义主题
+			{
+                test: /\.less$/,
+                use: [{
+                    loader: 'style-loader',
+                }, {
+                    loader: 'css-loader', // translates CSS into CommonJS
+                }, {
+                    loader: 'less-loader', // compiles Less to CSS
+                    options: {
+                        modifyVars: {
+                            'primary-color': '#1DA57A',
+                            'link-color': '#1DA57A',
+                            'border-radius-base': '2px',
+                        },
+                        javascriptEnabled: true,
+                    },
+                }],
+            }
 	    ]
 	 },
 	plugins:[
