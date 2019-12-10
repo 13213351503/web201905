@@ -2,7 +2,7 @@
 * @Author: Tom
 * @Date:   2018-08-06 09:23:30
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-05 20:34:10
+* @Last Modified time: 2019-12-10 19:29:43
 */
 const Router = require('express').Router
 
@@ -21,10 +21,10 @@ router.get('/user',(req,res)=>{
 })
 */
 
+
 //用户登录
 router.post("/users",(req,res)=>{
 	const { username,password,role} = req.body
-	
 	let isAdmin = false
 	if(role == 'admin'){
 		isAdmin = true

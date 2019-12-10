@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-03 17:36:42
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-08 17:53:03
+* @Last Modified time: 2019-12-10 18:14:15
 */
 import React,{Component} from 'react'
 import axios from 'axios'
@@ -16,6 +16,12 @@ import Layout from 'common/layout'
 
 //容器组件
 class Home extends Component{
+	constructor(props){
+		super(props)
+	}
+	componentDidMount(){
+		this.props.handleCount()
+	}
 	render(){
 		const { usernum,ordernum,productnum } = this.props
 		return(
@@ -63,7 +69,9 @@ const mapStateToProps = (state)=>{
 //将方法映射到组件
 const mapDispatchToProps = (dispatch)=>{
 	return {
-		
+		handleCount:()=>{
+			dispatch(actionCreator.getCountAction())
+		}
 	}
 }
 
