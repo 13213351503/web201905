@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-28 19:10:50
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-10 19:49:32
+* @Last Modified time: 2019-12-11 19:10:08
 */
 import React,{Component} from 'react'
 import './App.css'
@@ -20,6 +20,7 @@ import {getUsername} from 'util'
 import Login from 'pages/login'
 import Home from 'pages/home'
 import User from 'pages/user'
+import Category from 'pages/category'
 import Err from 'common/err'
 
 
@@ -55,6 +56,7 @@ class App extends Component{
 					<Switch>
 						<HomeRoute exact path='/' component={Home} />
 						<HomeRoute path='/user' component={User} />
+						<HomeRoute path='/category' component={Category} />
 						<LoginRoute path='/login' component={Login} />
 						<Route component={Err} />
 					</Switch>

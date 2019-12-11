@@ -2,21 +2,24 @@
 * @Author: Chen
 * @Date:   2019-12-03 17:36:42
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-11 18:47:33
+* @Last Modified time: 2019-12-11 19:29:57
 */
 import React,{Component} from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import './index.css'
-import { Breadcrumb,Table    } from 'antd'
+import { Breadcrumb,Table,Button     } from 'antd'
+import {
+  Link,
+} from "react-router-dom"
 
 import {actionCreator} from './store/index.js'
 import Layout from 'common/layout'
 
 
 //容器组件
-class User extends Component{
+class CategoryList extends Component{
 	constructor(props){
 		super(props)
 	}
@@ -65,12 +68,16 @@ class User extends Component{
 			}
 		}).toJS()
 		return(
-			<div className='User'>
+			<div className='CategoryList'>
 				<Layout>
 					<Breadcrumb style={{ margin: '16px 0' }}>
 			          <Breadcrumb.Item>首页</Breadcrumb.Item>
-			          <Breadcrumb.Item>用户列表</Breadcrumb.Item>
+			          <Breadcrumb.Item>分类管理</Breadcrumb.Item>
+			          <Breadcrumb.Item>分类列表</Breadcrumb.Item>
 			        </Breadcrumb>
+			        <div className='btn'>
+			        	<Link to='/category/add'><Button type="primary">新增分类</Button></Link>
+			        </div>
 			        <div className='content'>
 			        	<Table 
 							columns={columns} 
@@ -118,4 +125,4 @@ const mapDispatchToProps = (dispatch)=>{
 }
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(User)
+export default connect(mapStateToProps,mapDispatchToProps)(CategoryList)
