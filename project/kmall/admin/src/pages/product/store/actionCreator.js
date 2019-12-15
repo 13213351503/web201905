@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-02 16:52:50
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-15 11:43:53
+* @Last Modified time: 2019-12-15 17:37:31
 */
 import axios from 'axios'
 import * as types from './actionTypes.js'
@@ -19,26 +19,40 @@ const setImagesErrAction = ()=>({
 })
 export const getSaveProductAction = (err,values)=>{
 	return (dispatch,getState)=>{
-		// console.log(values)
+		console.log(values)
 		const state = getState().get('product')
 		const mainImage = state.get('mainImage')
 		const images = state.get('images')
 		const detail = state.get('detail')
+		let hasErr = false
+		if(err){
+			hasErr = true
+		}
 		//自定义组件验证
 		if(!mainImage){
+			hasErr = true
 			dispatch(setMainImageErrAction())
 		}
 		if(!images){
+			hasErr = true
 			dispatch(setImagesErrAction())
 		}
-		/*
-		api.addCategories(values)
+		if(hasErr){
+			return 
+		}
+		api.addProducts({
+			...values,
+			mainImage:mainImage,
+			images:images,
+			detail:detail
+		})
 		.then(result=>{
 			// console.log(result)
 			const data = result.data
 			if(data.code == 0){
-				message.success('新增分类成功')
-				dispatch(setLevelCategoriesAction(data.data))
+				message.success(data.message,()=>{
+					window.location.href = '/product'
+				})
 			}else{
 				message.error(data.message)
 			}
@@ -46,7 +60,6 @@ export const getSaveProductAction = (err,values)=>{
 		.catch(err=>{
 			console.log(err)
 		})
-		*/
 	}
 }
 
@@ -88,7 +101,7 @@ export const getLevelCategoriesAction = ()=>{
 		})
 	}
 }
-//处理分类列表分页数据
+//处理商品列表分页数据
 const getPageStartAction = () =>({
 	type:types.PAGE_REQUEST_START
 })
@@ -103,7 +116,7 @@ export const getPageAction = (page)=>{
 	return (dispatch,getState)=>{
 		//发送请求前显示loading
 		dispatch(getPageStartAction())
-		api.getCategoriesList({
+		api.getProductsList({
 			page:page
 		})
 		.then(result=>{
@@ -125,20 +138,19 @@ export const getPageAction = (page)=>{
 		})
 	}
 }
-//处理更新分类名称
-export const getUpdateNameAction = (id,newName)=>{
+//更新是否首页显示
+export const getUpdateIsShowAction = (id,newIsShow)=>{
 	return (dispatch,getState)=>{
-		const page = getState().get('category').get('current')
-		api.updateCategoriesName({
+		const page = getState().get('product').get('current')
+		api.updateProductsIsShow({
 			id:id,
-			name:newName,
+			isShow:newIsShow,
 			page:page
 		})
 		.then(result=>{
-			// console.log(result)
 			const data = result.data
 			if(data.code == 0){
-				message.success('更新分类成功')
+				message.success('更新显示隐藏分类成功')
 				dispatch(getSetPageAction(data.data))
 			}else{
 				message.error('请求失败,请稍后再试!')
@@ -150,19 +162,43 @@ export const getUpdateNameAction = (id,newName)=>{
 		})
 	}
 }
-//处理更新手机分类名称
-export const getUpdateMobileNameAction = (id,newMobileName)=>{
+//更新上架/下架
+export const getUpdateStatusAction = (id,newStatus)=>{
 	return (dispatch,getState)=>{
-		const page = getState().get('category').get('current')
-		api.updateCategoriesMobileName({
+		const page = getState().get('product').get('current')
+		api.updateProductsStatus({
 			id:id,
-			mobileName:newMobileName,
+			status:newStatus,
 			page:page
 		})
 		.then(result=>{
 			const data = result.data
 			if(data.code == 0){
-				message.success('更新手机分类成功')
+				message.success('更新上架/下架成功')
+				dispatch(getSetPageAction(data.data))
+			}else{
+				message.error('请求失败,请稍后再试!')
+			}
+		})
+		.catch(err=>{
+			console.log(err)
+			message.error('请求失败,请稍后再试!')
+		})
+	}
+}
+//更新是否热卖
+export const getUpdateIsHotAction = (id,newIsHot)=>{
+	return (dispatch,getState)=>{
+		const page = getState().get('product').get('current')
+		api.updateProductsIsHot({
+			id:id,
+			isHot:newIsHot,
+			page:page
+		})
+		.then(result=>{
+			const data = result.data
+			if(data.code == 0){
+				message.success('更新是否热卖成功')
 				dispatch(getSetPageAction(data.data))
 			}else{
 				message.error('请求失败,请稍后再试!')
@@ -177,8 +213,8 @@ export const getUpdateMobileNameAction = (id,newMobileName)=>{
 //处理更新排序
 export const getUpdateOrderAction = (id,newOrder)=>{
 	return (dispatch,getState)=>{
-		const page = getState().get('category').get('current')
-		api.updateCategoriesOrder({
+		const page = getState().get('product').get('current')
+		api.updateProductsOrder({
 			id:id,
 			order:newOrder,
 			page:page
@@ -198,20 +234,20 @@ export const getUpdateOrderAction = (id,newOrder)=>{
 		})
 	}
 }
-//更新显示隐藏
-export const getUpdateIsShowAction = (id,newIsShow)=>{
+//处理编辑商品
+const setProductDetailAction = (payload)=>({
+	type:types.SET_PRODUCT_DETAIL,
+	payload
+})
+export const getProductDetailAction = (id)=>{
 	return (dispatch,getState)=>{
-		const page = getState().get('category').get('current')
-		api.updateCategoriesIsShow({
+		api.getProductDetail({
 			id:id,
-			isShow:newIsShow,
-			page:page
 		})
 		.then(result=>{
 			const data = result.data
 			if(data.code == 0){
-				message.success('更新显示隐藏分类成功')
-				dispatch(getSetPageAction(data.data))
+				dispatch(setProductDetailAction(data.data))
 			}else{
 				message.error('请求失败,请稍后再试!')
 			}

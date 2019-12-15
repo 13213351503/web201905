@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-13 18:58:29
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-13 19:54:04
+* @Last Modified time: 2019-12-15 18:02:14
 */
 import React,{Component} from 'react'
 import { Upload, Icon, Modal } from 'antd'
@@ -20,6 +20,18 @@ class UploadImage extends Component{
    		this.handlePreview = this.handlePreview.bind(this)
    		this.handleChange = this.handleChange.bind(this)
 	}
+	static getDerivedStateFromProps(props,state){
+		// console.log(props.fileList)
+		if(props.fileList){
+			if(props.fileList.length > 0 && state.fileList.length == 0){
+				return {
+					fileList:props.fileList
+				}
+			}
+		}
+		
+		return null
+	}
 	handleCancel(){
 		this.setState({ previewVisible: false })
 	}
@@ -30,7 +42,6 @@ class UploadImage extends Component{
 	    })
 	}
 	handleChange({ fileList }){
-
 		this.setState({ fileList },()=>{
 			this.props.getFileList(fileList.map(file=>{
 				if(file.response){

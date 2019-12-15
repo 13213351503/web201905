@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-11 19:15:30
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-15 11:42:56
+* @Last Modified time: 2019-12-15 18:02:07
 */
 import React,{Component} from 'react'
 import { connect } from 'react-redux'
@@ -21,19 +21,27 @@ class ProductSave extends Component{
 	constructor(props){
 		super(props)
 		this.handleSubmit = this.handleSubmit.bind(this)
+		this.state = {
+			productId:this.props.match.params.productId
+		}
 	}
 	componentDidMount(){
 		//获取最新父级分类数据
 		this.props.handleLevelCategories()
+		//如果是编辑商品则需要获取商品详情信息并数据回填
+		if(this.state.productId){
+			this.props.handleProductDetail(this.state.productId)
+		}
 	}
 	handleSubmit(e){
     	e.preventDefault();
-		this.props.form.validateFields((err, values) => {
+		this.props.form.validateFields((err,values) => {
 			/*
 		    if (!err) {
 		        this.props.handleSave(values)
 		    }
 		    */
+		    // console.log(values)
 		    this.props.handleSave(err,values)
 		});
 	}
@@ -49,7 +57,38 @@ class ProductSave extends Component{
 			mainImageHelp,
 			imagesValidateStatus,
 			imagesHelp,
+
+			category,
+			name,
+			description,
+			price,
+			stock,
+			mainImage,
+			images,
+			detail,
 		} = this.props
+		//封面图片数据回传
+		let mainImageList = []
+		if(mainImage){
+			mainImageList.push({
+				uid: '0',
+		        name: 'image.png',
+		        status: 'done',
+		        url:mainImage
+			})
+		}
+		//商品图片数据回传
+		let imagesList = []
+		if(images){
+			imagesList = images.split(',').map((url,index)=>{
+				return {
+					uid: index,
+			        name: 'image.png',
+			        status: 'done',
+			        url:url
+				}
+			})
+		}
 		return (
 			<div className='ProductSave'>
 				<Layout>
@@ -63,6 +102,7 @@ class ProductSave extends Component{
 					        <Form.Item label="商品分类">
 					          {getFieldDecorator('category', {
 					            rules: [{ required: true, message: '请选择商品分类' }],
+					            initialValue:category
 					          })(
 					            <Select
 					              placeholder="请选择商品分类"
@@ -78,21 +118,25 @@ class ProductSave extends Component{
 					        <Form.Item label="商品名称">
 					          {getFieldDecorator('name', {
 					            rules: [{ required: true, message: '请输入商品名称' }],
+					            initialValue:name
 					          })(<Input />)}
 					        </Form.Item>
 					        <Form.Item label="商品描述">
 					          {getFieldDecorator('description', {
 					            rules: [{ required: true, message: '请输入商品描述' }],
+					            initialValue:description
 					          })(<Input />)}
 					        </Form.Item>
 					        <Form.Item label="商品价格">
 					          {getFieldDecorator('price', {
 					            rules: [{ required: true, message: '请输入商品价格' }],
+					            initialValue:price
 					          })(<InputNumber min={0} />)}
 					        </Form.Item>
 					        <Form.Item label="商品库存">
 					          {getFieldDecorator('stock', {
 					            rules: [{ required: true, message: '请输入商品库存' }],
+					            initialValue:stock
 					          })(<InputNumber min={0} />)}
 					        </Form.Item>
 					        <Form.Item 
@@ -107,6 +151,7 @@ class ProductSave extends Component{
 					          		getFileList = {(fileList)=>{
 					          			handleMainImage(fileList)
 					          		}}
+					          		fileList = {mainImageList}
 					          	/>
 					        </Form.Item>
 					        <Form.Item 
@@ -121,6 +166,7 @@ class ProductSave extends Component{
 					          		getFileList = {(fileList)=>{
 					          			handleImages(fileList)
 					          		}}
+					          		fileList = {imagesList}
 					          	/>
 					        </Form.Item>
 					        <Form.Item label="商品详情">
@@ -152,13 +198,22 @@ const mapStateToProps = (state)=>{
 		mainImageHelp:state.get('product').get('mainImageHelp'),
 		imagesValidateStatus:state.get('product').get('imagesValidateStatus'),
 		imagesHelp:state.get('product').get('imagesHelp'),
+		//获取商品详情信息
+		category:state.get('product').get('category'),
+		name:state.get('product').get('name'),
+		description:state.get('product').get('description'),
+		price:state.get('product').get('price'),
+		stock:state.get('product').get('stock'),
+		mainImage:state.get('product').get('mainImage'),
+		images:state.get('product').get('images'),
+		detail:state.get('product').get('detail'),
 	}
 }
 //将方法映射到组件
 const mapDispatchToProps = (dispatch)=>{
 	return {
 		handleSave:(err,values)=>{
-			dispatch(actionCreator.getSaveProductAction(values))
+			dispatch(actionCreator.getSaveProductAction(err,values))
 		},
 		handleLevelCategories:()=>{
 			dispatch(actionCreator.getLevelCategoriesAction())
@@ -172,6 +227,9 @@ const mapDispatchToProps = (dispatch)=>{
 		handleDetail:(values)=>{
 			dispatch(actionCreator.getDetailAction(values))
 		},
+		handleProductDetail:(id)=>{
+			dispatch(actionCreator.getProductDetailAction(id))
+		}
 	}
 }
 

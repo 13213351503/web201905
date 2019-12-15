@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-11 19:10:22
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-13 18:07:09
+* @Last Modified time: 2019-12-15 16:47:00
 */
 import React,{Component} from 'react'
 import {
@@ -20,7 +20,7 @@ class Product extends Component{
 			<div className='Product'>
 				<Switch>
 					<Route exact path='/product/' component={ProductList} />
-					<Route path='/product/save' component={ProductSave} />
+					<Route path='/product/save/:productId?' component={ProductSave} />
 				</Switch>
 			</div>
 		)

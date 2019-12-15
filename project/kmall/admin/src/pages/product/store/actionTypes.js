@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-02 16:34:24
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-15 11:39:05
+* @Last Modified time: 2019-12-15 17:09:43
 */
 export const SET_LEVEL_CATEGORIES = 'product@set_levev_categories'
 
@@ -16,3 +16,4 @@ export const SET_DETAIL = 'product@set_detail'
 
 export const SET_MAIN_IMAGE_ERR = 'product@set_main_image_err'
 export const SET_IMAGES_ERR = 'product@set_images_err'
+export const SET_PRODUCT_DETAIL = 'product@set_product_detail'

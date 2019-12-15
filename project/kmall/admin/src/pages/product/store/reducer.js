@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-05 15:11:29
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-15 11:48:04
+* @Last Modified time: 2019-12-15 17:16:38
 */
 import { fromJS } from 'immutable'
 const defaultState = fromJS({
@@ -21,11 +21,17 @@ const defaultState = fromJS({
 	mainImageHelp:'',
 	imagesValidateStatus:'',
 	imagesHelp:'',
+
+	category:'',
+	name:'',
+	description:'',
+	price:'',
+	stock:'',
 })
 import * as types from './actionTypes.js'
 
 export default (state=defaultState,action)=>{
-	//处理分类列表分页数据
+	//处理商品列表分页数据
 	if(action.type == types.SET_PAGE){
 		return state.merge({
 			list:fromJS(action.payload.list),
@@ -74,6 +80,19 @@ export default (state=defaultState,action)=>{
 		return state.merge({
 			imagesValidateStatus:'error',
 			imagesHelp:'请上传商品图片'
+		})
+	}
+	//处理编辑商品详情
+	if(action.type == types.SET_PRODUCT_DETAIL){
+		return state.merge({
+			category:action.payload.category._id,
+			name:action.payload.name,
+			description:action.payload.description,
+			price:action.payload.price,
+			stock:action.payload.stock,
+			mainImage:action.payload.mainImage,
+			images:action.payload.images,
+			detail:action.payload.detail,
 		})
 	}
 
