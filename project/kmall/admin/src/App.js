@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-28 19:10:50
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-11 19:10:08
+* @Last Modified time: 2019-12-12 17:48:36
 */
 import React,{Component} from 'react'
 import './App.css'
@@ -21,6 +21,7 @@ import Login from 'pages/login'
 import Home from 'pages/home'
 import User from 'pages/user'
 import Category from 'pages/category'
+import Product from 'pages/product'
 import Err from 'common/err'
 
 
@@ -57,6 +58,7 @@ class App extends Component{
 						<HomeRoute exact path='/' component={Home} />
 						<HomeRoute path='/user' component={User} />
 						<HomeRoute path='/category' component={Category} />
+						<HomeRoute path='/product' component={Product} />
 						<LoginRoute path='/login' component={Login} />
 						<Route component={Err} />
 					</Switch>

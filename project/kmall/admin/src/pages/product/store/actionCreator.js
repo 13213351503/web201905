@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-02 16:52:50
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-12 17:36:36
+* @Last Modified time: 2019-12-15 11:43:53
 */
 import axios from 'axios'
 import * as types from './actionTypes.js'
@@ -10,9 +10,28 @@ import api from 'api'
 import { message } from 'antd'
 
 
-//处理新增分类action
-export const getAddCategoriesAction = (values)=>{
+//处理新增商品action
+const setMainImageErrAction = ()=>({
+	type:types.SET_MAIN_IMAGE_ERR
+})
+const setImagesErrAction = ()=>({
+	type:types.SET_IMAGES_ERR
+})
+export const getSaveProductAction = (err,values)=>{
 	return (dispatch,getState)=>{
+		// console.log(values)
+		const state = getState().get('product')
+		const mainImage = state.get('mainImage')
+		const images = state.get('images')
+		const detail = state.get('detail')
+		//自定义组件验证
+		if(!mainImage){
+			dispatch(setMainImageErrAction())
+		}
+		if(!images){
+			dispatch(setImagesErrAction())
+		}
+		/*
 		api.addCategories(values)
 		.then(result=>{
 			// console.log(result)
@@ -27,8 +46,25 @@ export const getAddCategoriesAction = (values)=>{
 		.catch(err=>{
 			console.log(err)
 		})
+		*/
 	}
 }
+
+//处理自定义组件存值到store
+export const getMainImageAction = (payload)=>({
+	type:types.SET_MAIN_IMAGE,
+	payload
+})
+export const getImagesAction = (payload)=>({
+	type:types.SET_IMAGES,
+	payload
+})
+export const getDetailAction = (payload)=>({
+	type:types.SET_DETAIL,
+	payload
+})
+
+
 const setLevelCategoriesAction = (payload)=>({
 	type:types.SET_LEVEL_CATEGORIES,
 	payload
@@ -37,10 +73,9 @@ const setLevelCategoriesAction = (payload)=>({
 export const getLevelCategoriesAction = ()=>{
 	return (dispatch,getState)=>{
 		api.getLevelCategories({
-			level:2
+			level:3
 		})
 		.then(result=>{
-			console.log(result)
 			const data = result.data
 			if(data.code == 0){
 				dispatch(setLevelCategoriesAction(data.data))

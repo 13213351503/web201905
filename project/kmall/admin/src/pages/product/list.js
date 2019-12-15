@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-03 17:36:42
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-12 17:35:16
+* @Last Modified time: 2019-12-13 18:10:55
 */
 import React,{Component} from 'react'
 import axios from 'axios'
@@ -19,7 +19,7 @@ import Layout from 'common/layout'
 
 
 //容器组件
-class CategoryList extends Component{
+class ProductList extends Component{
 	constructor(props){
 		super(props)
 	}
@@ -111,15 +111,15 @@ class CategoryList extends Component{
 		const dataSource = list.toJS()
 		// console.log(dataSource)
 		return(
-			<div className='CategoryList'>
+			<div className='ProductList'>
 				<Layout>
 					<Breadcrumb style={{ margin: '16px 0' }}>
 			          <Breadcrumb.Item>首页</Breadcrumb.Item>
-			          <Breadcrumb.Item>分类管理</Breadcrumb.Item>
-			          <Breadcrumb.Item>分类列表</Breadcrumb.Item>
+			          <Breadcrumb.Item>商品管理</Breadcrumb.Item>
+			          <Breadcrumb.Item>商品列表</Breadcrumb.Item>
 			        </Breadcrumb>
 			        <div className='btn'>
-			        	<Link to='/category/add'><Button type="primary" className='add-btn'>新增分类</Button></Link>
+			        	<Link to='/product/save'><Button type="primary" className='add-btn'>新增商品</Button></Link>
 			        </div>
 			        <div className='content'>
 			        	<Table 
@@ -151,11 +151,11 @@ class CategoryList extends Component{
 //将属性映射到组件中
 const mapStateToProps = (state)=>{
 	return {
-		list:state.get('category').get('list'),
-		pageSize:state.get('category').get('pageSize'),
-		current:state.get('category').get('current'),
-		total:state.get('category').get('total'),
-		isFecthing:state.get('category').get('isFecthing'),
+		list:state.get('product').get('list'),
+		pageSize:state.get('product').get('pageSize'),
+		current:state.get('product').get('current'),
+		total:state.get('product').get('total'),
+		isFecthing:state.get('product').get('isFecthing'),
 	}
 }
 //将方法映射到组件
@@ -181,4 +181,4 @@ const mapDispatchToProps = (dispatch)=>{
 }
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(CategoryList)
+export default connect(mapStateToProps,mapDispatchToProps)(ProductList)

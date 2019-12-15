@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-08 16:25:02
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-11 19:23:39
+* @Last Modified time: 2019-12-12 17:49:14
 */
 import React,{Component} from 'react'
 import { Layout, Menu, Icon } from 'antd';
@@ -28,6 +28,9 @@ class AdminSider extends Component{
 			            </Menu.Item>
 			            <Menu.Item key="3">
 			            	<NavLink to='/category'>分类管理</NavLink>
+			            </Menu.Item>
+			            <Menu.Item key="4">
+			            	<NavLink to='/product'>商品管理</NavLink>
 			            </Menu.Item>
 			        </Menu>
 			    </Sider>
