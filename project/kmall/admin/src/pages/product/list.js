@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-03 17:36:42
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-15 16:42:30
+* @Last Modified time: 2019-12-16 20:50:16
 */
 import React,{Component} from 'react'
 import axios from 'axios'
@@ -13,6 +13,7 @@ import { Breadcrumb,Table,Button,Input,InputNumber,Switch,Divider    } from 'ant
 import {
   Link,
 } from "react-router-dom"
+const { Search } = Input
 
 import {actionCreator} from './store/index.js'
 import Layout from 'common/layout'
@@ -32,6 +33,17 @@ class ProductList extends Component{
 		    title: '商品',
 		    dataIndex: 'name',
 		    key: 'name',
+		    render:(name)=>{
+		    	if(keyword){
+		    		///keyword/ig
+		    		let reg = new RegExp(keyword,'ig')
+		    		let newName = name.replace(reg,'<b style="color:red;">'+keyword+'</b>')
+		    		return <div dangerouslySetInnerHTML={{__html: newName}}></div>
+		    	}else{
+		    		return name
+		    	}
+		    	
+		    }
 		  },
 		  {
 		    title: '是否首页显示',
@@ -106,7 +118,7 @@ class ProductList extends Component{
 		  			<span>
 		  				<Link to={'/product/save/'+record._id}>编辑</Link>	
 		  				<Divider type="vertical" />
-		  				<Link to={'/product/detail'+record._id}>查看</Link>	
+		  				<Link to={'/product/detail/'+record._id}>查看</Link>	
 		  			</span>
 		  		)
 		  	}
@@ -119,6 +131,7 @@ class ProductList extends Component{
 			total,
 			handlePage,
 			isFecthing,
+			keyword,
 			handleUpdateIsShow,
 			handleUpdateStatus,
 			handleUpdateIsHot,
@@ -135,6 +148,13 @@ class ProductList extends Component{
 			          <Breadcrumb.Item>商品列表</Breadcrumb.Item>
 			        </Breadcrumb>
 			        <div className='btn'>
+			        	<Search 
+			        		placeholder="请输入关键词" 
+			        		onSearch={
+			        			value => handlePage(1,value)
+			        		} 
+			        		style={{width:300}}
+			        		enterButton />
 			        	<Link to='/product/save'><Button type="primary" className='add-btn'>新增商品</Button></Link>
 			        </div>
 			        <div className='content'>
@@ -148,7 +168,11 @@ class ProductList extends Component{
 								total:total
 							}}
 							onChange={(page)=>{
-								handlePage(page.current)
+								if(keyword){
+									handlePage(page.current,keyword)
+								}else{
+									handlePage(page.current)
+								}
 							}}
 							loading={{
 								spinning:isFecthing,
@@ -173,13 +197,14 @@ const mapStateToProps = (state)=>{
 		current:state.get('product').get('current'),
 		total:state.get('product').get('total'),
 		isFecthing:state.get('product').get('isFecthing'),
+		keyword:state.get('product').get('keyword'),
 	}
 }
 //将方法映射到组件
 const mapDispatchToProps = (dispatch)=>{
 	return {
-		handlePage:(page)=>{
-			dispatch(actionCreator.getPageAction(page))
+		handlePage:(page,keyword)=>{
+			dispatch(actionCreator.getPageAction(page,keyword))
 		},
 		handleUpdateIsShow:(id,newIsShow)=>{
 			dispatch(actionCreator.getUpdateIsShowAction(id,newIsShow))

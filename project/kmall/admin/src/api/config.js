@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-10 18:42:54
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-15 17:06:58
+* @Last Modified time: 2019-12-16 19:18:40
 */
 export const SERVER = 'http://127.0.0.1:3000'
 export const UPLOAD_PRODUCT_IMAGE = SERVER + '/products/images'
@@ -27,4 +27,5 @@ export const API_CONFIG = {
 	updateProductsIsHot: 			['/products/isHot','put'],
 	updateProductsOrder: 			['/products/order','put'],
 	getProductDetail:  				['/products/detail','get'],
+	updateProducts:  				['/products','put'],
 }

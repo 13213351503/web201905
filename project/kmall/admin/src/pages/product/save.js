@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-11 19:15:30
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-15 18:02:07
+* @Last Modified time: 2019-12-16 19:52:23
 */
 import React,{Component} from 'react'
 import { connect } from 'react-redux'
@@ -36,12 +36,7 @@ class ProductSave extends Component{
 	handleSubmit(e){
     	e.preventDefault();
 		this.props.form.validateFields((err,values) => {
-			/*
-		    if (!err) {
-		        this.props.handleSave(values)
-		    }
-		    */
-		    // console.log(values)
+			values.id = this.state.productId
 		    this.props.handleSave(err,values)
 		});
 	}
@@ -74,7 +69,10 @@ class ProductSave extends Component{
 				uid: '0',
 		        name: 'image.png',
 		        status: 'done',
-		        url:mainImage
+		        url:mainImage,
+		        response:{
+		        	url:mainImage
+		        }
 			})
 		}
 		//商品图片数据回传
@@ -85,7 +83,10 @@ class ProductSave extends Component{
 					uid: index,
 			        name: 'image.png',
 			        status: 'done',
-			        url:url
+			        url:url,
+			        response:{
+			        	url:url
+			        }
 				}
 			})
 		}
@@ -95,7 +96,10 @@ class ProductSave extends Component{
 					<Breadcrumb style={{ margin: '16px 0' }}>
 			          <Breadcrumb.Item>首页</Breadcrumb.Item>
 			          <Breadcrumb.Item>商品管理</Breadcrumb.Item>
-			          <Breadcrumb.Item>编辑商品</Breadcrumb.Item>
+			          {
+			          	this.state.productId ? <Breadcrumb.Item>编辑商品</Breadcrumb.Item> : <Breadcrumb.Item>新增商品</Breadcrumb.Item>
+			          }
+			          
 			        </Breadcrumb>
 			        <div className='content'>	
 			        	<Form labelCol={{ span: 5 }} wrapperCol={{ span: 12 }}>
@@ -175,6 +179,7 @@ class ProductSave extends Component{
 					          		getValues={(values)=>{
 					          			handleDetail(values)
 					          		}}
+					          		values={detail}
 					          	/>
 					        </Form.Item>
 					        <Form.Item wrapperCol={{ span: 12, offset: 5 }}>

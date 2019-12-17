@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-13 20:10:45
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-15 10:34:35
+* @Last Modified time: 2019-12-16 19:00:32
 */
 import React,{Component} from 'react'
 import Simditor from 'simditor'
@@ -32,7 +32,8 @@ class RichEditor extends Component{
 				'indent',
 				'outdent',
 				'alignment',
-			]
+			],
+			isLoad:false
 		}
 
 		//携带cookie
@@ -52,8 +53,18 @@ class RichEditor extends Component{
 		  	}
 		})
 		this.editor.on('valuechanged',()=>{
-			this.props.getValues(this.editor.getValue())
+			this.setState({isLoad:true},()=>{
+				this.props.getValues(this.editor.getValue())
+			})
 		})
+	}
+	componentDidUpdate(){
+		if(this.props.values && !this.state.isLoad){
+			this.editor.setValue(this.props.values)
+			this.setState({
+				isLoad:true
+			})
+		}
 	}
 	render(){
 		return(

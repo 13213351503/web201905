@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-08 16:25:02
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-12 17:49:14
+* @Last Modified time: 2019-12-16 20:52:29
 */
 import React,{Component} from 'react'
 import { Layout, Menu, Icon } from 'antd';
@@ -21,16 +21,16 @@ class AdminSider extends Component{
 			          style={{ height: '100%', borderRight: 0 }}
 			        >
 			            <Menu.Item key="1">
-			            	<NavLink exact to='/'>首页</NavLink>
+			            	<NavLink exact to='/'><Icon type="home" />首页</NavLink>
 			            </Menu.Item>
 			            <Menu.Item key="2">
-			            	<NavLink exact to='/user'>用户管理</NavLink>
+			            	<NavLink exact to='/user'><Icon type="user" />用户管理</NavLink>
 			            </Menu.Item>
 			            <Menu.Item key="3">
-			            	<NavLink to='/category'>分类管理</NavLink>
+			            	<NavLink to='/category'><Icon type="menu" />分类管理</NavLink>
 			            </Menu.Item>
 			            <Menu.Item key="4">
-			            	<NavLink to='/product'>商品管理</NavLink>
+			            	<NavLink to='/product'><Icon type="shopping" />商品管理</NavLink>
 			            </Menu.Item>
 			        </Menu>
 			    </Sider>

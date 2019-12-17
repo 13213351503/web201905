@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-05 15:11:29
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-15 17:16:38
+* @Last Modified time: 2019-12-16 20:29:20
 */
 import { fromJS } from 'immutable'
 const defaultState = fromJS({
@@ -23,10 +23,13 @@ const defaultState = fromJS({
 	imagesHelp:'',
 
 	category:'',
+	categoryName:'',
 	name:'',
 	description:'',
 	price:'',
-	stock:'',
+	stock:'', 
+
+	keyword:''
 })
 import * as types from './actionTypes.js'
 
@@ -38,6 +41,7 @@ export default (state=defaultState,action)=>{
 			current:action.payload.current,
 			pageSize:action.payload.pageSize,	
 			total:action.payload.total,
+			keyword:action.payload.keyword
 		})
 	}
 	if(action.type == types.PAGE_REQUEST_START){
@@ -86,6 +90,7 @@ export default (state=defaultState,action)=>{
 	if(action.type == types.SET_PRODUCT_DETAIL){
 		return state.merge({
 			category:action.payload.category._id,
+			categoryName:action.payload.category.name,
 			name:action.payload.name,
 			description:action.payload.description,
 			price:action.payload.price,

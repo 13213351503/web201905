@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-02 16:52:50
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-15 17:37:31
+* @Last Modified time: 2019-12-16 20:24:34
 */
 import axios from 'axios'
 import * as types from './actionTypes.js'
@@ -19,7 +19,6 @@ const setImagesErrAction = ()=>({
 })
 export const getSaveProductAction = (err,values)=>{
 	return (dispatch,getState)=>{
-		console.log(values)
 		const state = getState().get('product')
 		const mainImage = state.get('mainImage')
 		const images = state.get('images')
@@ -40,7 +39,12 @@ export const getSaveProductAction = (err,values)=>{
 		if(hasErr){
 			return 
 		}
-		api.addProducts({
+		//判断到底是新增商品还是修改商品:根据有没有传入ID判断
+		let request = api.addProducts
+		if(values.id){
+			request = api.updateProducts
+		}
+		request({
 			...values,
 			mainImage:mainImage,
 			images:images,
@@ -112,13 +116,18 @@ const getSetPageAction = (payload) =>({
 	type:types.SET_PAGE,
 	payload
 })
-export const getPageAction = (page)=>{
+export const getPageAction = (page,keyword)=>{
 	return (dispatch,getState)=>{
 		//发送请求前显示loading
 		dispatch(getPageStartAction())
-		api.getProductsList({
+		//如果有关键词则进行关键词查询数据
+		let options = {
 			page:page
-		})
+		}
+		if(keyword){
+			options.keyword = keyword
+		}
+		api.getProductsList(options)
 		.then(result=>{
 			// console.log(result)
 			const data = result.data

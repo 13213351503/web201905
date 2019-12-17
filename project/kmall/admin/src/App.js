@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-28 19:10:50
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-12 17:48:36
+* @Last Modified time: 2019-12-16 18:51:33
 */
 import React,{Component} from 'react'
 import './App.css'
@@ -52,7 +52,7 @@ class App extends Component{
 			)
 		}
 		return(
-			<Router>
+			<Router forceRefresh={true}>
 				<div className='App'>
 					<Switch>
 						<HomeRoute exact path='/' component={Home} />
