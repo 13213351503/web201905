@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-17 18:15:41
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-19 20:50:38
+* @Last Modified time: 2019-12-19 20:57:00
 */
 require('pages/common/logo')
 require('pages/common/footer')
@@ -47,14 +47,17 @@ var page = {
 		var formData = {
 			username:$.trim($('[name="username"]').val()),
 			password:$.trim($('[name="password"]').val()),
+			repassword:$.trim($('[name="repassword"]').val()),
+			phone:$.trim($('[name="phone"]').val()),
+			email:$.trim($('[name="email"]').val()),
 		}
 		//2.验证数据合法性
 		var formDataValidate = this.validate(formData)
-		// console.log(formDataValidate)
 		//3.验证通过,发送ajax请求
 		if(formDataValidate.status){
 			formErr.hide()
 			//发送ajax请求
+			/*
 			api.login({
 				data:formData,
 				success:function(data){
@@ -62,23 +65,6 @@ var page = {
 				},
 				error:function(msg){
 					formErr.show(msg)
-				}
-			})
-			/*
-			$.ajax({
-				url:'/sessions/users',
-				method:'post',
-				dataType:'json',
-				data:formData,
-				success:function(result){
-					if(result.code == 0){//登录成功
-						window.location.href = '/'
-					}else{//登录失败
-						formErr.show(result.message)
-					}
-				},
-				error:function(err){
-					formErr.show('网络错误,请稍后再试')
 				}
 			})
 			*/
@@ -111,6 +97,31 @@ var page = {
 		//验证密码格式
 		if(!_util.validate(formData.password,'password')){
 			result.msg = '密码格式不正确'
+			return result
+		}
+		//验证两次输入密码
+		if(formData.password != formData.repassword){
+			result.msg = '两次输入密码不一致'
+			return result
+		}
+		//手机号不能为空
+		if(!_util.validate(formData.phone,'required')){
+			result.msg = '手机号不能为空'
+			return result
+		}
+		//验证手机号格式
+		if(!_util.validate(formData.phone,'phone')){
+			result.msg = '手机号格式不正确'
+			return result
+		}
+		//邮箱不能为空
+		if(!_util.validate(formData.email,'required')){
+			result.msg = '邮箱不能为空'
+			return result
+		}
+		//验证手机号格式
+		if(!_util.validate(formData.email,'email')){
+			result.msg = '邮箱格式不正确'
 			return result
 		}
 		result.status = true

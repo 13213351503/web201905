@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-10 18:40:51
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-11 18:31:48
+* @Last Modified time: 2019-12-19 19:41:07
 */
 import { SERVER,API_CONFIG } from './config.js'
 import axios from 'axios'
@@ -12,8 +12,8 @@ const getApiObj = (API_CONFIG)=>{
 	const apiObj = {}
 	for(let key in API_CONFIG){
 		apiObj[key] = (data)=>{
-			let url = SERVER + API_CONFIG[key][0]
-			let method = API_CONFIG[key][1]
+			let url = SERVER + API_CONFIG[key][0] || '/'
+			let method = API_CONFIG[key][1] || 'get'
 			//发送请求
 			return request(url,method,data)
 		}

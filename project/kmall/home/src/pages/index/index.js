@@ -2,8 +2,8 @@
 * @Author: Chen
 * @Date:   2019-12-17 18:15:41
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-17 20:39:49
+* @Last Modified time: 2019-12-19 20:07:53
 */
-require('pages/common/nav')
+var nav = require('pages/common/nav')
 require('pages/common/footer')
 require('./index.css')

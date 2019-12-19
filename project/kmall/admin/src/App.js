@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-28 19:10:50
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-16 18:51:33
+* @Last Modified time: 2019-12-19 16:04:41
 */
 import React,{Component} from 'react'
 import './App.css'
@@ -22,6 +22,7 @@ import Home from 'pages/home'
 import User from 'pages/user'
 import Category from 'pages/category'
 import Product from 'pages/product'
+import Ad from 'pages/ad'
 import Err from 'common/err'
 
 
@@ -59,6 +60,7 @@ class App extends Component{
 						<HomeRoute path='/user' component={User} />
 						<HomeRoute path='/category' component={Category} />
 						<HomeRoute path='/product' component={Product} />
+						<HomeRoute path='/ad' component={Ad} />
 						<LoginRoute path='/login' component={Login} />
 						<Route component={Err} />
 					</Switch>
