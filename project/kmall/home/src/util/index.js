@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-19 18:34:23
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-19 20:55:43
+* @Last Modified time: 2019-12-20 19:06:41
 */
 module.exports = {
 	validate:function(value,type){
@@ -24,7 +24,7 @@ module.exports = {
 		}
 		//验证邮箱:110110@qq.com
 		if(type == 'email'){
-			return /^\w+@$\w+\.\w{2,6}$/.test(value)
+			return /^\w+@\w+\.\w{2,6}$/.test(value)
 		}
 	},
 	showSuccessMsg:function(msg){
@@ -35,5 +35,15 @@ module.exports = {
 	},
 	goLogin:function(){
 		window.location.href = '/user-login.html'
+	},
+	getParamsFormUrl:function(key){
+		var query = window.location.search.substr(1)
+		//type=register
+		//type=register&name=tom
+		//name=tom&type=register
+		//name=tom&type=register&age=18
+		var reg = new RegExp('(^|&)'+key+'='+'([^&]*)($|&)')
+		var result = query.match(reg)
+		return result ? decodeURIComponent(result[2]) : null
 	}
 }

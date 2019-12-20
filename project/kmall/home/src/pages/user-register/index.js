@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-17 18:15:41
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-19 20:57:00
+* @Last Modified time: 2019-12-20 19:07:52
 */
 require('pages/common/logo')
 require('pages/common/footer')
@@ -41,6 +41,28 @@ var page = {
 				_this.submit()
 			}
 		})
+		//监听用户名失去焦点判断用户名是否存在
+		$('[name="username"]').on('blur',function(){
+			var username = $.trim($(this).val())
+			//如果没有输入用户名或者用户名验证不合法则不需要向后台发送请求
+			if(!_util.validate(username,'required')){
+				return 
+			}
+			if(!_util.validate(username,'username')){
+				return 
+			}
+			api.checkUsername({
+				data:{
+					username:username
+				},
+				success:function(data){
+					formErr.hide()
+				},
+				error:function(msg){
+					formErr.show(msg)
+				}
+			})
+		})
 	},
 	submit:function(){
 		//1.获取表单数据
@@ -57,17 +79,15 @@ var page = {
 		if(formDataValidate.status){
 			formErr.hide()
 			//发送ajax请求
-			/*
-			api.login({
+			api.register({
 				data:formData,
 				success:function(data){
-					window.location.href = '/'
+					window.location.href = '/result.html?type=register'
 				},
 				error:function(msg){
 					formErr.show(msg)
 				}
 			})
-			*/
 
 		}else{//验证不通过,错误提示
 			formErr.show(formDataValidate.msg)

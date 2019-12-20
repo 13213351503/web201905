@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-25 19:16:58
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-19 20:48:07
+* @Last Modified time: 2019-12-20 18:34:37
 */
 const path = require('path')
 const htmlWebpackPlugin = require('html-webpack-plugin')
@@ -30,6 +30,7 @@ module.exports = {
 		'list':'./src/pages/list',
 		'user-login':'./src/pages/user-login',
 		'user-register':'./src/pages/user-register',
+		'result':'./src/pages/result',
 	},
 	//输出
 	output: {// webpack 如何输出结果的相关选项
@@ -97,6 +98,7 @@ module.exports = {
 	    new htmlWebpackPlugin(getHtmlConfig('list','列表页')),
 	    new htmlWebpackPlugin(getHtmlConfig('user-login','用户登录')),
 	    new htmlWebpackPlugin(getHtmlConfig('user-register','用户注册')),
+	    new htmlWebpackPlugin(getHtmlConfig('result','结果页')),
 	    //自动清理多余文件
 	    new CleanWebpackPlugin(),
 	    //单独打包CSS文件
@@ -108,7 +110,7 @@ module.exports = {
 	    contentBase: './dist',//内容的目录
 	    port:3002,//服务运行的端口,
 	    proxy: [{
-	      	context: ['/sessions'],//以xx开始的地址全部代理到target下的地址
+	      	context: ['/sessions','/users'],//以xx开始的地址全部代理到target下的地址
 	      	target: 'http://127.0.0.1:3000',
 	    }]
 	}
