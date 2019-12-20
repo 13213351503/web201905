@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-25 19:16:58
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-20 18:34:37
+* @Last Modified time: 2019-12-20 19:41:00
 */
 const path = require('path')
 const htmlWebpackPlugin = require('html-webpack-plugin')
@@ -31,6 +31,7 @@ module.exports = {
 		'user-login':'./src/pages/user-login',
 		'user-register':'./src/pages/user-register',
 		'result':'./src/pages/result',
+		'user-center':'./src/pages/user-center',
 	},
 	//输出
 	output: {// webpack 如何输出结果的相关选项
@@ -99,6 +100,7 @@ module.exports = {
 	    new htmlWebpackPlugin(getHtmlConfig('user-login','用户登录')),
 	    new htmlWebpackPlugin(getHtmlConfig('user-register','用户注册')),
 	    new htmlWebpackPlugin(getHtmlConfig('result','结果页')),
+	    new htmlWebpackPlugin(getHtmlConfig('user-center','用户中心')),
 	    //自动清理多余文件
 	    new CleanWebpackPlugin(),
 	    //单独打包CSS文件
