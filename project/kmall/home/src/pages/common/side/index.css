@@ -1,13 +1,9 @@
 /*
 * @Author: Chen
-* @Date:   2019-12-17 18:33:57
+* @Date:   2019-12-20 19:55:51
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-20 19:56:16
+* @Last Modified time: 2019-12-20 19:56:14
 */
-.user-page-wrap{
-    margin-bottom: 20px;
-}
-/*
 .side{
     width: 150px;
     min-height: 600px;
@@ -38,20 +34,3 @@
     box-sizing: border-box;
     padding: 20px;
 }
-*/
-
-.form-item{
-    height: 30px;
-    line-height: 30px;
-    font-size: 14px;
-}
-.label-item{
-    display: inline-block;
-    width: 100px;
-    text-align: right;
-}
-.content-item{
-    display: inline-block;
-    width: 400px;
-    padding-left: 40px;
-} 

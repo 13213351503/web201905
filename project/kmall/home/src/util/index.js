@@ -2,8 +2,9 @@
 * @Author: Chen
 * @Date:   2019-12-19 18:34:23
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-20 19:06:41
+* @Last Modified time: 2019-12-20 20:47:04
 */
+var Hogan = require('hogan.js')
 module.exports = {
 	validate:function(value,type){
 		//非空验证
@@ -45,5 +46,10 @@ module.exports = {
 		var reg = new RegExp('(^|&)'+key+'='+'([^&]*)($|&)')
 		var result = query.match(reg)
 		return result ? decodeURIComponent(result[2]) : null
+	},
+	render:function(tpl,data){
+		var template = Hogan.compile(tpl);
+		var html = template.render(data)
+		return html
 	}
 }
