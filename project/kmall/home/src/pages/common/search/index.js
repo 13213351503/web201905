@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-17 18:15:41
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-20 19:27:01
+* @Last Modified time: 2019-12-22 11:15:53
 */
 require('pages/common/logo')
 require('pages/common/footer')
@@ -22,7 +22,7 @@ var page = {
 			_this.submit()
 		})
 		//监听键盘事件,回车键提交数据
-		$('input').on('keyup',function(ev){
+		$('#search-input').on('keyup',function(ev){
 			if(ev.keyCode == 13){
 				_this.submit()
 			}
