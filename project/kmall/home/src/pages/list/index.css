@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-17 18:35:33
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-22 17:00:17
+* @Last Modified time: 2019-12-23 19:58:31
 */
 .sort{
     margin-bottom: 20px;
@@ -75,7 +75,7 @@
     text-overflow: ellipsis;
     padding: 0px 10px;  
 }
-
+/*
 .pagination{
     text-align: center;
 }
@@ -103,3 +103,4 @@
     font-size: 14px;
     margin-left: 10px;
 }
+*/
