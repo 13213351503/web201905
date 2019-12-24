@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-17 18:15:41
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-22 11:15:00
+* @Last Modified time: 2019-12-24 19:40:55
 */
 var nav = require('pages/common/nav')
 require('pages/common/search')
@@ -65,7 +65,8 @@ var page = {
 					password:formData.password
 				},
 				success:function(data){
-					window.location.href = '/result.html?type=updatePassword'
+					// window.location.href = '/result.html?type=updatePassword'
+					_util.geResilt('updatePassword')
 				},
 				error:function(msg){
 					formErr.show(msg)

@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-25 19:16:58
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-24 18:12:40
+* @Last Modified time: 2019-12-24 20:19:08
 */
 const path = require('path')
 const htmlWebpackPlugin = require('html-webpack-plugin')
@@ -34,6 +34,7 @@ module.exports = {
 		'user-center':'./src/pages/user-center',
 		'user-update-password':'./src/pages/user-update-password',
 		'detail':'./src/pages/detail',
+		'cart':'./src/pages/cart',
 	},
 	//输出
 	output: {// webpack 如何输出结果的相关选项
@@ -112,6 +113,7 @@ module.exports = {
 	    new htmlWebpackPlugin(getHtmlConfig('user-center','用户中心')),
 	    new htmlWebpackPlugin(getHtmlConfig('user-update-password','更新密码')),
 	    new htmlWebpackPlugin(getHtmlConfig('detail','商品详情')),
+	    new htmlWebpackPlugin(getHtmlConfig('cart','购物车')),
 	    //自动清理多余文件
 	    new CleanWebpackPlugin(),
 	    //单独打包CSS文件
@@ -123,7 +125,15 @@ module.exports = {
 	    contentBase: './dist',//内容的目录
 	    port:3002,//服务运行的端口,
 	    proxy: [{
-	      	context: ['/sessions','/users','/categories','/ads','/floors','/products'],//以xx开始的地址全部代理到target下的地址
+	      	context: [
+		      	'/sessions',
+		      	'/users',
+		      	'/categories',
+		      	'/ads',
+		      	'/floors',
+		      	'/products',
+		      	'/carts'
+	      	],//以xx开始的地址全部代理到target下的地址
 	      	target: 'http://127.0.0.1:3000',
 	    }]
 	}

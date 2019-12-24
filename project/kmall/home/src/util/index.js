@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-19 18:34:23
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-22 10:46:19
+* @Last Modified time: 2019-12-24 19:39:38
 */
 var Hogan = require('hogan.js')
 module.exports = {
@@ -36,6 +36,9 @@ module.exports = {
 	},
 	goLogin:function(){
 		window.location.href = '/user-login.html?redirect='+encodeURIComponent(window.location.href)
+	},
+	goResult:function(type){
+		window.location.href = '/result.html?type='+type
 	},
 	getParamsFormUrl:function(key){
 		var query = window.location.search.substr(1)

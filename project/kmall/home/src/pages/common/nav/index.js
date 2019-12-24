@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-17 20:39:30
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-19 20:26:53
+* @Last Modified time: 2019-12-24 20:04:08
 */
 require('./index.css')
 var api = require('api')
@@ -12,7 +12,20 @@ var page = {
 	init:function(){
 		this.loadUsername()
 		this.bindEvent()
+		//加载购物车数量
+		this.loadCarts()
 		return this
+	},
+	loadCarts:function(){
+		var $cartNum = $('.cart-num')
+		api.getCartsCount({
+			success:function(count){
+				$cartNum.text(count || 0)
+			},
+			error:function(){
+				$cartNum.text(0)
+			}
+		})
 	},
 	bindEvent:function(){
 		$('#logout').on('click',function(){
