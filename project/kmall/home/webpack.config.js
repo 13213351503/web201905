@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-25 19:16:58
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-24 20:19:08
+* @Last Modified time: 2019-12-26 20:27:58
 */
 const path = require('path')
 const htmlWebpackPlugin = require('html-webpack-plugin')
@@ -25,16 +25,17 @@ module.exports = {
   	// webpack 开始打包
 	//多入口
 	entry:{
-		'common':'./src/pages/common',
-		'index':'./src/pages/index',
-		'list':'./src/pages/list',
-		'user-login':'./src/pages/user-login',
-		'user-register':'./src/pages/user-register',
-		'result':'./src/pages/result',
-		'user-center':'./src/pages/user-center',
-		'user-update-password':'./src/pages/user-update-password',
-		'detail':'./src/pages/detail',
-		'cart':'./src/pages/cart',
+		'common': 						'./src/pages/common',
+		'index': 						'./src/pages/index',
+		'list': 						'./src/pages/list',
+		'user-login': 					'./src/pages/user-login',
+		'user-register': 				'./src/pages/user-register',
+		'result': 						'./src/pages/result',
+		'user-center': 					'./src/pages/user-center',
+		'user-update-password': 		'./src/pages/user-update-password',
+		'detail': 						'./src/pages/detail',
+		'cart': 						'./src/pages/cart',
+		'order-confirm': 				'./src/pages/order-confirm',
 	},
 	//输出
 	output: {// webpack 如何输出结果的相关选项
@@ -114,6 +115,7 @@ module.exports = {
 	    new htmlWebpackPlugin(getHtmlConfig('user-update-password','更新密码')),
 	    new htmlWebpackPlugin(getHtmlConfig('detail','商品详情')),
 	    new htmlWebpackPlugin(getHtmlConfig('cart','购物车')),
+	    new htmlWebpackPlugin(getHtmlConfig('order-confirm','订单确认')),
 	    //自动清理多余文件
 	    new CleanWebpackPlugin(),
 	    //单独打包CSS文件
