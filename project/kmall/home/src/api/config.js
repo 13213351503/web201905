@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-19 19:37:56
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-26 19:25:31
+* @Last Modified time: 2019-12-27 20:42:16
 */
 var API_CONFIG = {
 	login: 							['/sessions/users','post'],
@@ -24,6 +24,13 @@ var API_CONFIG = {
 	updateCartsChoice: 				['/carts/choices','put'],
 	deleteCarts: 					['/carts','delete'],
 	updateCartsCounts: 				['/carts/counts','put'],
+
+
+	getOrdersList: 					['/orders/products','get'],
+	
+	addShippings: 					['/shippings','post'],
+	getShippings: 					['/shippings/list','get'],
+	deleteShippings: 				['/shippings','delete'],
 }
 
 module.exports = {

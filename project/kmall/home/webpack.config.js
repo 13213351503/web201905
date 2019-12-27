@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-25 19:16:58
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-26 20:27:58
+* @Last Modified time: 2019-12-27 19:47:03
 */
 const path = require('path')
 const htmlWebpackPlugin = require('html-webpack-plugin')
@@ -134,7 +134,9 @@ module.exports = {
 		      	'/ads',
 		      	'/floors',
 		      	'/products',
-		      	'/carts'
+		      	'/carts',
+		      	'/orders',
+		      	'/shippings',
 	      	],//以xx开始的地址全部代理到target下的地址
 	      	target: 'http://127.0.0.1:3000',
 	    }]
