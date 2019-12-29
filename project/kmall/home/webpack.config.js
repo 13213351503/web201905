@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-11-25 19:16:58
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-27 19:47:03
+* @Last Modified time: 2019-12-29 16:18:19
 */
 const path = require('path')
 const htmlWebpackPlugin = require('html-webpack-plugin')
@@ -36,6 +36,9 @@ module.exports = {
 		'detail': 						'./src/pages/detail',
 		'cart': 						'./src/pages/cart',
 		'order-confirm': 				'./src/pages/order-confirm',
+		'payment': 						'./src/pages/payment',
+		'order-list': 					'./src/pages/order-list',
+		'order-detail': 				'./src/pages/order-detail',
 	},
 	//输出
 	output: {// webpack 如何输出结果的相关选项
@@ -116,6 +119,9 @@ module.exports = {
 	    new htmlWebpackPlugin(getHtmlConfig('detail','商品详情')),
 	    new htmlWebpackPlugin(getHtmlConfig('cart','购物车')),
 	    new htmlWebpackPlugin(getHtmlConfig('order-confirm','订单确认')),
+	    new htmlWebpackPlugin(getHtmlConfig('payment','订单支付')),
+	    new htmlWebpackPlugin(getHtmlConfig('order-list','订单列表')),
+	    new htmlWebpackPlugin(getHtmlConfig('order-detail','订单详情')),
 	    //自动清理多余文件
 	    new CleanWebpackPlugin(),
 	    //单独打包CSS文件
@@ -137,6 +143,7 @@ module.exports = {
 		      	'/carts',
 		      	'/orders',
 		      	'/shippings',
+		      	'/payments',
 	      	],//以xx开始的地址全部代理到target下的地址
 	      	target: 'http://127.0.0.1:3000',
 	    }]

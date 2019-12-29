@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-17 18:16:09
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-27 20:46:15
+* @Last Modified time: 2019-12-29 11:28:46
 */
 var _nav = require('pages/common/nav')
 require('pages/common/search')
@@ -45,7 +45,9 @@ var page = {
 		})
 
 		//2.点击删除地址
-		this.shippingBox.on('click','.shipping-delete',function(){
+		this.shippingBox.on('click','.shipping-delete',function(ev){
+			//阻止事件冒泡防止该地址变为选中状态
+			ev.stopPropagation()
 			if(_util.showConfirm('您确定要删除该条地址吗?')){
 				var shippingId = $(this).parents('.shipping-item').data('shipping-id')
 				api.deleteShippings({
@@ -62,8 +64,67 @@ var page = {
 				})
 			}
 		})
+
+		//3.点击编辑地址
+		this.shippingBox.on('click','.shipping-edit',function(ev){
+			//阻止事件冒泡防止该地址变为选中状态
+			ev.stopPropagation()
+			var $this = $(this)
+			var shippingId = $this.parents('.shipping-item').data('shipping-id')
+			api.getShippingsDetail({
+				data:{
+					id:shippingId
+				},
+				success:function(shipping){
+					_modal.show(shipping)
+				},
+				error:function(){
+					_util.showErrMsg(msg)
+				}
+			})
+		})
+
+		//4.点击选中地址
+		this.shippingBox.on('click','.shipping-item',function(){
+			var $this = $(this)
+			$this.addClass('active')
+			.siblings('.shipping-item')
+			.removeClass('active')
+
+			//获取当前选中地址的ID
+			_this.selectShippingId = $this.data('shipping-id')
+		})
+
+		//5.点击支付功能
+		this.productBox.on('click','.btn-submit',function(){
+			var $this = $(this)
+			//支付:创建订单信息,成功后去到支付页面
+			//支付必须获取地址
+			if(_this.selectShippingId){
+				api.addOrders({
+					data:{
+						shippingId:_this.selectShippingId
+					},
+					success:function(order){
+						window.location.href = './payment.html?orderNo='+order.orderNo
+					},
+					error:function(){
+						_util.showErrMsg('创建订单失败,请稍后再试')
+					}
+				})
+			}else{
+				_util.showErrMsg('请选择收货人地址')
+			}
+		})
 	},
 	renderShippings:function(shippings){
+		var _this = this
+		//重新渲染地址列表是保存渲染前的地址选中状态
+		shippings.forEach(function(shipping){
+			if(shipping._id == _this.selectShippingId){
+				shipping.active = true
+			}
+		})
 		var html = _util.render(shippingTpl,{
 			shippings:shippings
 		})

@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-27 18:30:59
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-27 20:24:32
+* @Last Modified time: 2019-12-29 10:42:55
 */
 var api = require('api')
 var _util = require('util')
@@ -27,7 +27,9 @@ var formErr ={
 }
 
 module.exports = {
-	show:function(){
+	show:function(shipping){
+		//存储编辑回传的地址信息
+		this.shipping = shipping
 		this.$modalBox = $('.modal-box')
 		//加载地址弹出层
 		this.loadModal()
@@ -42,6 +44,12 @@ module.exports = {
 		var provincesSelectOption = this.getSelectOptions(provinces)
 		var provincesSelect = this.$modalBox.find('.province-select')
 		provincesSelect.html(provincesSelectOption)
+
+		//处理编辑地址
+		if(this.shipping){
+			provincesSelect.val(this.shipping.province)
+			this.loadCities(this.shipping.province)
+		}
 	},
 	loadCities:function(province){
 		//加载省份对应的城市信息
@@ -49,6 +57,11 @@ module.exports = {
 		var citiesSelectOption = this.getSelectOptions(cities)
 		var citiesSelect = this.$modalBox.find('.city-select')
 		citiesSelect.html(citiesSelectOption)
+
+		//处理编辑地址
+		if(this.shipping){
+			citiesSelect.val(this.shipping.city)
+		}
 	},
 	getSelectOptions:function(arr){
 		var html = '<option value="">请选择</option>'
@@ -58,7 +71,7 @@ module.exports = {
 		return html
 	},
 	loadModal:function(){
-		var html = _util.render(modalTpl)
+		var html = _util.render(modalTpl,this.shipping)
 		this.$modalBox.html(html)
 	},
 	bindEvent:function(){
@@ -110,7 +123,15 @@ module.exports = {
 		if(formDataValidate.status){
 			formErr.hide()
 			//发送ajax请求
-			api.addShippings({
+			var request = api.addShippings
+			var action = '新增'
+			//编辑提交地址
+			if(_this.shipping){
+				request = api.updateShippingsDetail
+				formData.id = _this.shipping._id
+				action = '编辑'
+			}
+			request({
 				data:formData,
 				success:function(shippings){
 					//新增地址成功后处理
@@ -119,10 +140,10 @@ module.exports = {
 					//2.通过自定义事件传递最新地址数据
 					$('.shipping-box').trigger('get-shippings',[shippings])
 					//3.成功提示信息
-					_util.showSuccessMsg('新增地址成功')
+					_util.showSuccessMsg(action+'地址成功')
 				},
 				error:function(msg){
-					_util.showErrMsg('新增地址失败,请稍后再试!')
+					_util.showErrMsg(action+'地址失败,请稍后再试!')
 				}
 			})
 
