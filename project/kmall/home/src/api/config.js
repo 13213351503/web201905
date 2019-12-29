@@ -2,7 +2,7 @@
 * @Author: Chen
 * @Date:   2019-12-19 19:37:56
 * @Last Modified by:   Chen
-* @Last Modified time: 2019-12-29 16:16:30
+* @Last Modified time: 2019-12-29 16:44:37
 */
 var API_CONFIG = {
 	login: 							['/sessions/users','post'],
@@ -40,6 +40,7 @@ var API_CONFIG = {
 
 	getOrderList: 					['/orders/list','get'],
 	getOrderDetail: 				['/orders/detail','get'],
+	updateOrderStatus: 				['/orders/status','put'],
 }
 
 module.exports = {
