@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>014-v-on-绑定事件.html</title>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<button v-on:click="count++">我被点击了{{count}}次</button>
+		<button @click="count++">我被点击了{{count}}次</button>
+		<button @click="addCount">我被点击了{{count}}次</button>
+		<button @click="addCount()">我被点击了{{count}}次</button>
+		<button @click="say">say</button>
+		<button @click="say('tom')">say</button>
+		<button @click="say('leo')">say</button>
+	</div>
+</body>
+<script src="js/vue.js"></script>
+<script>
+	//vm (ViewModel 的缩写)
+	var vm = new Vue({
+		el:'#app',
+		data:{
+			count:0
+		},
+		methods:{
+			addCount:function(){
+				this.count++
+			},
+			say:function(name){
+				console.log(name + '点击了我')
+			}
+		}
+	})
+</script>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>037-动态组件-重写.html</title>
+	<style>
+		
+	</style>
+</head>
+<body>
+	<div id="app">
+		<button
+			v-for="(tab,index) in tabs"
+			@click="currentTab = tab"
+		>
+			{{tab}}
+		</button>
+
+		<component :is="currentComponent"></component>
+	</div>
+	<!--模板必须定义在 Vue 所属的 DOM 元素外-->
+	<template id="tab-home">
+		<div>tab-home</div>
+	</template>
+	<template id="tab-article">
+		<div>tab-article</div>
+	</template>
+	<template id="tab-list">
+		<div>tab-list</div>
+	</template>
+</body>
+<script src="js/vue.js"></script>
+<script>
+	//1.定义组件
+	var Home = Vue.extend({
+		template:'#tab-home',
+	})
+	var Article = Vue.extend({
+		template:'#tab-article',
+	})
+	var List = Vue.extend({
+		template:'#tab-list',
+	})
+	//2.注册
+	Vue.component('tab-home',Home)
+	Vue.component('tab-article',Article)
+	Vue.component('tab-list',List)
+
+
+	var vm = new Vue({
+		el:'#app',
+		data:{
+			currentTab:'home',
+			tabs:['home','article','list']
+		},
+		computed:{
+			currentComponent:{
+				get(){
+					return 'tab-'+this.currentTab
+				}
+			}
+		}
+	})
+</script>
+</html>

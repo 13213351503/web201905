@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>034-插槽-匿名.html</title>
+	<style>
+		
+	</style>
+</head>
+<body>
+	<div id="app">
+		<layout>
+			首页主体内容
+		</layout>
+	</div>
+	<!--模板必须定义在 Vue 所属的 DOM 元素外-->
+	<template id="layout">
+		<div>
+			<div>顶部导航</div>
+			<slot>主体焦点内容</slot>
+			<slot>主体分类内容</slot>
+			<div>底部导航</div>
+		</div>
+	</template>
+</body>
+<script src="js/vue.js"></script>
+<script>
+	//1.定义组件
+	var Layout = Vue.extend({
+		template:'#layout',
+	})
+	//2.注册
+	Vue.component('layout',Layout)
+
+
+	var vm = new Vue({
+		el:'#app',
+		data:{
+			total:0
+		},
+		methods:{
+			addTotal:function(){
+				this.total++
+			}
+		}
+	})
+</script>
+</html>

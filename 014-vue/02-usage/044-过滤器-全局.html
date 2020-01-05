@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>044-过滤器-全局.html</title>
+	<style>
+		
+	</style>
+</head>
+<body>
+	<div id="app">
+		<!-- <p>价格::{{'￥'+price.toFixed(2)}}</p> -->
+		<p>价格::{{price | priceFormat}}</p>
+	</div>
+	<div id="app2">
+		<p>价格::{{price | priceFormat}}</p>
+	</div>
+</body>
+<script src="js/vue.js"></script>
+<script>
+	Vue.filter('priceFormat',function(price){
+		return '￥'+price.toFixed(2)
+	})
+	var vm = new Vue({
+		el:'#app',
+		data:{
+			price:10
+		},
+	})
+	var vm2 = new Vue({
+		el:'#app2',
+		data:{
+			price:30	
+		},
+	})
+</script>
+</html>

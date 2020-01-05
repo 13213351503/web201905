@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>041-动画-自定义过渡类.html</title>
+	<link rel="stylesheet" href="css/animate.css">
+	<style>
+		
+	</style>
+</head>
+<body>
+	<div id="app">
+		<button @click="isShow = !isShow">切换</button>
+		<transition 
+			name="fade" 
+			appear
+			enter-active-class="animated swing"
+    		leave-active-class="animated bounceOutRight"
+		>
+			<p v-if="isShow">文字</p>
+		</transition>
+	</div>
+	
+</body>
+<script src="js/vue.js"></script>
+<script>
+	var vm = new Vue({
+		el:'#app',
+		data:{
+			isShow:true
+		},
+	})
+</script>
+</html>

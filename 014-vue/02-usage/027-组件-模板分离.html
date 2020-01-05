@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>027-组件-模板分离.html</title>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<button-counter></button-counter>
+		<button-counter></button-counter>
+		<button-counter></button-counter>
+	</div>
+	<div id="app2">
+		<button-counter></button-counter>
+		<button-counter></button-counter>
+		<button-counter></button-counter>
+	</div>
+	<!--模板必须定义在 Vue 所属的 DOM 元素外-->
+	<template id="button-counter">
+		<button v-on:click="count++">你点击的我 {{ count }} 次</button>
+	</template>
+</body>
+<script src="js/vue.js"></script>
+<script>
+	// 定义一个名为 button-counter 的新组件
+	Vue.component('button-counter',{
+		data(){
+			return {
+				count:0
+			}
+		},
+		template:'#button-counter'
+	})
+	var vm = new Vue({
+		el:'#app',
+		data:{
+			
+		},
+	})
+	var vm2 = new Vue({
+		el:'#app2',
+		data:{
+			
+		},
+	})
+</script>
+</html>

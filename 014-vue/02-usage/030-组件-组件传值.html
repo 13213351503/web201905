@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>030-组件-组件传值.html</title>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<todo-item task='吃饭'></todo-item>
+		<todo-item task='睡觉'></todo-item>
+	</div>
+	
+	<!--模板必须定义在 Vue 所属的 DOM 元素外-->
+	<template id="todo-item">
+		<div>{{task}}</div>
+	</template>
+</body>
+<script src="js/vue.js"></script>
+<script>
+	//1.定义组件
+	var TodoItem = Vue.extend({
+		data(){
+			return {
+				
+			}
+		},
+		template:'#todo-item',
+		// props:['task']
+		props:{
+			task:String
+		}
+	})
+	//2.注册
+	Vue.component('todo-item',TodoItem)
+
+
+	var vm = new Vue({
+		el:'#app',
+		data:{
+			
+		},
+	})
+</script>
+</html>

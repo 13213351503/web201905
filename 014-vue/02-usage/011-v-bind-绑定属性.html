@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>011-v-bind-绑定属性.html</title>
+</head>
+<body>
+	<div id="app">
+		<a href="https://www.baidu.com">百度</a>
+		<!-- <a href="{{baiduUrl}}">百度</a> -->
+		<a v-bind:href="baiduUrl">百度</a>
+		<a :href="baiduUrl">百度</a>
+	</div>
+</body>
+<script src="js/vue.js"></script>
+<script>
+	//vm (ViewModel 的缩写)
+	var vm = new Vue({
+		el:'#app',
+		data:{
+			baiduUrl:'https://www.baidu.com'
+		},
+	})
+</script>
+</html>
