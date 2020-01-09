@@ -3,7 +3,11 @@
     <div id="App">
         <Header :addTodo="addTodo" />
         <List :todos="todos" :delTodo="delTodo" />
-        <Footer :todos="todos" />
+        <Footer 
+            :todos="todos" 
+            :selectAllTodo="selectAllTodo" 
+            :deleteSelectDone="deleteSelectDone"
+        />
     </div>
 </template>
 <!-- 逻辑 -->
@@ -24,11 +28,11 @@
                 todos:[
                     {
                         task:'学习',
-                        done:true
+                        done:false
                     },
                     {
                         task:'睡觉',
-                        done:true
+                        done:false
                     }
                 ]
             }
@@ -39,6 +43,14 @@
             },
             delTodo:function(index){
                 this.todos.splice(index,1)
+            },
+            selectAllTodo:function(value){
+                this.todos.forEach((item)=>{
+                    item.done = value
+                })
+            },
+            deleteSelectDone:function(){
+                this.todos = this.todos.filter((item)=>item.done != true)
             }
         }
     }
