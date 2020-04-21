@@ -49,10 +49,24 @@ Page({
       hasUserInfo: true
     })
   },
+  /*
   tapText:function(){
     console.log('tapText...')
   },
   tapView:function(){
     console.log('tapView...')
+  }
+  */
+  // 点击跳转页面
+  tapMotto:function(){
+    wx.navigateTo({
+      url:'/pages/article/article'
+    })
+    /*
+    wx.redirectTo({
+      url: '/pages/article/article'
+    })
+    */
+
   }
 })

@@ -1,2 +1,14 @@
-<!--pages/article/article.wxml-->
-<text>pages/article/article.wxml</text>
+<view>
+  <swiper indicator-dots="true"
+    autoplay="true" interval="3000" duration="300">
+    <swiper-item>
+      <image class="swiper-img" src="/images/swiper/s1.jpg"></image>
+    </swiper-item>
+    <swiper-item>
+      <image class="swiper-img" src="/images/swiper/s2.jpg"></image>
+    </swiper-item>
+    <swiper-item>
+      <image class="swiper-img" src="/images/swiper/s3.jpg"></image>
+    </swiper-item>
+  </swiper>
+</view>

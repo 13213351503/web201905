@@ -7,7 +7,10 @@
   <!-- <view class="usermotto" bindtap="tapView">
     <text class="user-motto" bindtap="tapText">开启之旅</text>
   </view> -->
-  <view class="usermotto" catchtap="tapView">
+  <!-- <view class="usermotto" catchtap="tapView">
     <text class="user-motto" catchtap="tapText">开启之旅</text>
+  </view> -->
+  <view class="usermotto" bindtap="tapMotto">
+    <text class="user-motto">开启之旅</text>
   </view>
 </view>
