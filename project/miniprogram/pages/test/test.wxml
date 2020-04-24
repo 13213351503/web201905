@@ -1,29 +1,50 @@
-<view class='container article-detail'>
-  <view class='focus'>
-    <image class='focus-bg' src='/images/article/a1.jpg'></image>
-    <image 
-      class='focus-music' 
-      src='/images/icon/music-start.png'>
-    </image>
-  </view>
+<view class='movie-list-wrap'>
   <view class='head'>
-    <image class='avatar' src='/images/avatar/u1.jpg'></image>
-    <text class='author'>Tom</text>
-    <text class='text'>发表于</text>
-    <text class='time'>2天前</text>
+    <text class='tag'>正在热映</text>
+    <text 
+      catchtap='tapMore' 
+      class='more'
+    >更多></text>
   </view>
-  <text class='title'>标题</text>
-  <view class='operation'>
-    <image
-      class='operation-collection'
-      src='/images/icon/collection.png'>
-    </image>  
-    <image 
-      class='operation-share' 
-      src='/images/icon/share.png'
-    >
-    </image>
-    <view class='operation-line'></view>    
+  <view class='list'>
+    <view class='movie-item-wrap'>
+      <image class='cover-img' src='/images/article/a1.jpg'></image>
+      <text class='title'>寒战</text>
+      <view class='star-wrap'>
+          <image 
+            src="/images/icon/star.png">
+          </image>
+          <image 
+            src="/images/icon/star.png">
+          </image>
+        <text class='score'>5.5</text>
+      </view>
+    </view>
+    <view class='movie-item-wrap'>
+      <image class='cover-img' src='/images/article/a1.jpg'></image>
+      <text class='title'>寒战</text>
+      <view class='star-wrap'>
+          <image 
+            src="/images/icon/star.png">
+          </image>
+          <image 
+            src="/images/icon/star.png">
+          </image>
+        <text class='score'>5.5</text>
+      </view>
+    </view>
+    <view class='movie-item-wrap'>
+      <image class='cover-img' src='/images/article/a1.jpg'></image>
+      <text class='title'>寒战</text>
+      <view class='star-wrap'>
+          <image 
+            src="/images/icon/star.png">
+          </image>
+          <image 
+            src="/images/icon/star.png">
+          </image>
+        <text class='score'>5.5</text>
+      </view>
+    </view>
   </view>
-  <text class='content'>我是内容</text>
 </view>

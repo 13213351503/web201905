@@ -59,8 +59,13 @@ Page({
   */
   // 点击跳转页面
   tapMotto:function(){
+    /*
     wx.navigateTo({
       url:'/pages/article/article'
+    })
+    */
+    wx.switchTab({
+      url: '/pages/article/article'
     })
     /*
     wx.redirectTo({
