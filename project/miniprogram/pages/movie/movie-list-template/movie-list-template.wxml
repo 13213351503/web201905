@@ -7,6 +7,7 @@
       <text 
         catchtap='tapMore' 
         class='more'
+        data-type='{{type}}'
       >更多></text>
     </view>
     <view class='list'>

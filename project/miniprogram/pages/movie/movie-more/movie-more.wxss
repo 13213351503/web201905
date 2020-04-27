@@ -1,3 +1,5 @@
+@import '../movie-item-template/movie-item-template.wxss';
+
 .movie-more-wrap{
   display: flex;
   flex-wrap: wrap;

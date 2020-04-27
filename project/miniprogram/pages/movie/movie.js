@@ -1,4 +1,5 @@
 var { getMovieList } = require('../../utils/util.js')
+var app = getApp()
 
 Page({
 
@@ -13,43 +14,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var _this = this
-    var inTheatersUrl = 'http://t.yushu.im/v2/movie/in_theaters?start=0&count=3';
-    var comingSoonUrl = 'http://t.yushu.im/v2/movie/coming_soon?start=0&count=3';
-    var top250Url = 'http://t.yushu.im/v2/movie/top250?start=0&count=3';
+    var _this = this;
+    var baseUrl = app.GLOBAL_DATA.baseUrl;
+    var inTheatersUrl = baseUrl+'in_theaters?start=0&count=3';
+    var comingSoonUrl = baseUrl+'coming_soon?start=0&count=3';
+    var top250Url = baseUrl+'top250?start=0&count=3';
     // 发送请求获取电影列表
-    /*
-    wx.request({
-      url:'http://t.yushu.im/v2/movie/in_theaters?start=0&count=3',
-      success:function(res){
-        // console.log(res)
-        var data = res.data.subjects.map(function(item){
-          return {
-            coverImage: item.images.large,
-            title:item.title,
-            score:item.rating.average,
-            stars:item.rating.stars
-          }
-        })
-        _this.setData({ inTheaters:data})
-      }
-    })
-    wx.request({
-      url: 'http://t.yushu.im/v2/movie/coming_soon?start=0&count=3',
-      success: function (res) {
-        // console.log(res)
-        var data = res.data.subjects.map(function (item) {
-          return {
-            coverImage: item.images.large,
-            title: item.title,
-            score: item.rating.average,
-            stars: item.rating.stars
-          }
-        })
-        _this.setData({ comingSoon: data })
-      }
-    })
-    */
     getMovieList(inTheatersUrl,function(data){
       _this.setData({ inTheaters: data })
     })
@@ -108,5 +78,16 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  /**
+   * 点击加载更多电影列表
+   */
+  tapMore:function(ev){
+    // console.log(ev.currentTarget.dataset)
+    var type = ev.currentTarget.dataset.type
+    wx.navigateTo({
+      url: '/pages/movie/movie-more/movie-more?type='+type
+    })
   }
 })
